@@ -9,9 +9,15 @@ app.use(bodyParser.json())
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+// Database
+const database = require('./config/database')
+database.connect()
 // View engine setup
 app.set('views', `${__dirname}/views`); // Tìm đến thư mục tên là views
 app.set('view engine', 'pug'); // template engine sử dụng: pug
+// Routes
+const adminRoutes = require("./routes/admin/index_routes")
+adminRoutes(app)
 // Static file
 app.use(express.static(`${__dirname}/public`));
 app.listen(port, () => {
