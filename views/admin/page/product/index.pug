@@ -1,0 +1,48 @@
+extends ../../layout/default.pug 
+
+block main 
+    h1 Danh sách sản phẩm
+    .card.mb-3
+        .card-header.bg-primary.text-white
+            h3.card-title Danh sách sản phẩm
+        .card-body
+            .row
+                .col-md-9
+                    form.form-inline.my-2.my-lg-0(method="POST",action="",form-search)
+                        input.form-control.mr-sm-2(type="search", placeholder="Tìm sản phẩm", aria-label="Search", name="search")
+                        button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Tìm
+                .col-md-3.text-right
+                    a.btn.btn-success(href="/admin/product/create") + Thêm sản phẩm
+            p   
+            table.table.table-striped.table-hover
+                thead.thead-dark
+                    tr
+                        th STT
+                        th Hình ảnh
+                        th Tên sản phẩm
+                        th Giá
+                        th Số lượng
+                        th Trạng thái
+                        th Hành động
+                tbody
+                    each item, index in products
+                        tr
+                            td= index + 1
+                            td
+                                img(src=item.image, alt=item.name, width="100px")
+                            td= item.name
+                            td #{item.price} VNĐ
+                            td #{item.quantity}
+                            if item.status == "active"
+                                td 
+                                    span.badge.badge-success Active
+                            else
+                                td 
+                                    span.badge.badge-danger Inactive
+                            td 
+                                a.btn.btn-primary(href=`/admin/product/edit/${item._id}`, style="margin: 8px") Sửa
+
+                                a.btn.btn-danger(href=`/admin/product/delete/${item._id}`, style="margin: 8px") Xóa
+   
+    script(src="/admin/js/product.js") 
+                            

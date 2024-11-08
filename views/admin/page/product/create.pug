@@ -1,0 +1,98 @@
+doctype html
+html
+  head
+    title Thêm Sản Phẩm Mới
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css")
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")
+    script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js")
+
+  body
+    .container.mt-5
+      .card.shadow-lg.p-4
+        h2.text-center.text-primary.mb-4 
+          i.fas.fa-book-open.me-2
+          | Thêm Sản Phẩm Mới
+
+        form#productForm(method="POST", action="/admin/product/create")
+          .row.g-3
+            .col-md-6
+              label(for="name") Tên Sản Phẩm
+              input.form-control(type="text", name="name", placeholder="Nhập tên sản phẩm", required)
+              
+
+            .col-md-6
+              label(for="author") Tác Giả
+              input.form-control(type="text", name="author", placeholder="Tên tác giả", required)
+
+           
+            .col-md-4
+              label(for="quantity") Số Lượng
+              input.form-control(type="number", name="quantity", placeholder="Số lượng có sẵn", required)
+
+            .col-md-4
+              label(for="language") Ngôn Ngữ
+              input.form-control(type="text", name="language", placeholder="Ví dụ: Tiếng Việt", required)
+
+            .col-md-4
+              label(for="typePaper") Loại Bìa
+              input.form-control(type="text", name="typePaper", placeholder="Ví dụ: Bìa cứng", required)
+
+            .col-md-6
+              label(for="numPage") Số Trang
+              input.form-control(type="number", name="numPage", placeholder="Số trang", required)
+
+            .col-md-6
+              label(for="publisher") Nhà Xuất Bản
+              input.form-control(type="text", name="publisher", placeholder="Tên nhà xuất bản", required)
+
+            .col-md-6
+              label(for="yearPublish") Năm Xuất Bản
+              input.form-control(type="number", name="yearPublish", placeholder="Ví dụ: 2022", required)
+
+            .col-md-6
+              label(for="price") Giá (VND)
+              input.form-control(type="number", name="price", placeholder="Ví dụ: 200000", required)
+
+            .col-12
+              label(for="description") Mô Tả
+              textarea.form-control(name="description", rows="3", placeholder="Mô tả ngắn gọn về sản phẩm", required)
+              .form-text.text-muted Tối đa 500 ký tự
+
+            .col-md-6
+              label(for="image") Đường Dẫn Ảnh
+              input.form-control(type="url", name="image", placeholder="Ví dụ: http://example.com/anh.jpg")
+
+            .col-md-6.form-check.d-flex.align-items-center.mt-4
+              input.form-check-input(type="checkbox", name="deleted", id="deleted")
+              label.form-check-label(for="deleted") 
+                | Đánh Dấu Đã Xóa
+              i.fas.fa-info-circle.ms-2.text-secondary(data-bs-toggle="popover", data-bs-content="Đánh dấu là đã xóa để ẩn sản phẩm khỏi danh sách")
+
+            .col-md-6
+              label(for="status") Trạng Thái
+              select.form-select(name="status")
+                option(value="active") Hoạt Động
+                option(value="inactive") Ngừng Hoạt Động
+
+          button.btn.btn-primary.btn-lg.w-100.mt-4(type="submit")
+            i.fas.fa-check-circle.me-2
+            | Thêm Sản Phẩm
+
+    //- JavaScript cho các tooltip và popover
+    script.
+      $(function () {
+        $('[data-bs-toggle="tooltip"]').tooltip();
+        $('[data-bs-toggle="popover"]').popover();
+      });
+    script.
+        if (error){
+            alert("Lỗi: " + error);
+        }
+        else{
+      $('#productForm').submit(function(event) {
+        event.preventDefault();
+        alert("Sản phẩm đã được thêm thành công!");
+        this.submit();
+      });
+        }
