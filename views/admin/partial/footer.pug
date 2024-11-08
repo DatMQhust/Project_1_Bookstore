@@ -1,0 +1,103 @@
+doctype html
+html
+  head
+    title Bookory Footer
+    // Import Bootstrap CSS
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
+    // Import Font Awesome for icons
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css")
+    style.
+      /* CSS tùy chỉnh cho footer */
+      footer {
+        background-color: #f8f9fa;
+        padding: 40px 0;
+        border-top: 1px solid #ddd;
+        color: #333;
+      }
+      footer h5 {
+        font-size: 1.2rem;
+        color: #ff6a5b;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+      footer a {
+        color: #555;
+        text-decoration: none;
+      }
+      footer a:hover {
+        color: #ff6a5b;
+      }
+      .footer-contact p {
+        margin-bottom: 5px;
+      }
+      .social-icons a {
+        font-size: 1.2rem;
+        margin-right: 15px;
+        color: #ff6a5b;
+      }
+      .social-icons a:hover {
+        color: #ff5040;
+      }
+      .footer-bottom {
+        background-color: #e9ecef;
+        padding: 15px 0;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #555;
+      }
+
+  body
+    footer
+      .container
+        .row
+          // Contact Information
+          .col-md-4.footer-contact
+            h5 Contact Us
+            p
+              i.fa.fa-map-marker-alt.mr-2
+              | Số 1, Đại Cồ Việt, Hai Bà Trưng, Hà Nội
+            p
+              i.fa.fa-phone-alt.mr-2
+              | +84 899 817 045
+            p
+              i.fa.fa-envelope.mr-2
+              | support@dat.com
+            p
+              i.fa.fa-clock.mr-2
+              | Mon - Fri, 8:00 - 22:00
+
+          // Quick Links
+          .col-md-4.footer-links
+            h5 Quick Links
+            ul.list-unstyled
+              li
+                a(href="#") Home
+              li
+                a(href="#") Shop
+              li
+                a(href="#") Contact
+              li
+                a(href="#") About Us
+              li
+                a(href="#") FAQ
+
+          // Social Media and App Download
+          .col-md-4.footer-social
+            h5 Follow Us
+            .social-icons
+              a(href="#" title="Facebook") 
+                i.fab.fa-facebook.fa-2x(style="color: #3b5998;")
+              a(href="#" title="Instagram") 
+                i.fab.fa-instagram.fa-2x(style="color: #c13584;")
+              
+            
+
+      // Footer bottom with copyright
+      .footer-bottom
+        .container
+          | © 2024 Mai Quoc Dat. All Rights Reserved.
+
+    // Import Bootstrap JS and jQuery for dropdowns
+    script(src="https://code.jquery.com/jquery-3.5.1.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js")
