@@ -4,5 +4,5 @@ const product = require('./product_routes');
 const { prefixAdmin } = require('../../config/system');
 module.exports = (app) =>{
     app.use(`/${prefixAdmin}`,dashboard)
-    app.use(`/${prefixAdmin}`,product)
+    app.use(`/${prefixAdmin}/product`,product)
 }

@@ -23,6 +23,11 @@ const adminRoutes = require("./routes/admin/index_routes")
 adminRoutes(app)
 // Static file
 app.use(express.static(`${__dirname}/public`));
+
+app.use('/uploads', express.static('uploads'));
+
+
+// App listen
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })

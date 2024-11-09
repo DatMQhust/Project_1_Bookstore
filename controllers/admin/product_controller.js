@@ -35,7 +35,7 @@ module.exports.create = (req,res)=>{
     res.render('admin/page/product/create')
 }
 module.exports.createPost = async (req,res)=>{
-    console.log(req.body)
+    
     const exit = await Product.findOne({name:req.body.name})
     if (exit){
         res.render('admin/page/product/create',{
@@ -43,6 +43,9 @@ module.exports.createPost = async (req,res)=>{
         })
     }
     else{
+        if(req.file){
+            req.body.image = `/uploads/${req.file.filename}`
+        }
     let product = new Product(req.body);
     
     product.deleted = false;
@@ -52,4 +55,25 @@ module.exports.createPost = async (req,res)=>{
     await product.save()
     res.redirect('/admin/product')
 }
+}
+// [GET] /admin/product/edit/:id
+module.exports.edit = async (req,res)=>{
+    const id = req.params.id;
+    const product = await Product.findById(id)
+    res.render('admin/page/product/edit',{
+        product:product
+    })
+}
+// [POST] /admin/product/edit/:id
+module.exports.editPost = async (req,res)=>{
+    const id = req.params.id;
+    req.body.quantity = parseInt(req.body.quantity)
+    req.body.price = parseInt(req.body.price)
+    req.body.numPage = parseInt(req.body.numPage)
+    req.body.yearPublish = parseInt(req.body.yearPublish)
+    if(req.file){
+        req.body.image = `/uploads/${req.file.filename}`
+    }
+    await Product.updateOne({ _id: { $in: id } }, req.body)
+    res.redirect('/admin/product')
 }
