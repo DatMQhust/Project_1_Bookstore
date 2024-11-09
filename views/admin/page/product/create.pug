@@ -14,7 +14,7 @@ html
           i.fas.fa-book-open.me-2
           | Thêm Sản Phẩm Mới
 
-        form#productForm(method="POST", action="/admin/product/create")
+        form#productForm(method="POST", action=`/${prefixAdmin}/product/create`)
           .row.g-3
             .col-md-6
               label(for="name") Tên Sản Phẩm

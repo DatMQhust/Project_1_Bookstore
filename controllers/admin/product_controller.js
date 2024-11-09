@@ -1,5 +1,6 @@
 const Product = require('../../models/product')
 const searchHelper = require('../../helpers/search');
+const pageHelper = require('../../helpers/pagination');
 const search = require('../../helpers/search');
 // [GET] /admin/product
 module.exports.index = async (req,res)=>{
@@ -10,10 +11,15 @@ module.exports.index = async (req,res)=>{
     if (req.query.search){
         finds.name = regex
     }
-    const product = await Product.find(finds)
+    
+    const count = await Product.countDocuments(finds)
+    const {page,limit,offset,totalPage} = pageHelper(req.query,count)
+    const product = await Product.find(finds).limit(limit).skip(offset)
     //console.log(product)
     res.render('admin/page/product/index',{
-        products:product
+        products:product,
+        totalPage: totalPage,
+        currentPage: page
     })
 }
 

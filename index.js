@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const systemConfig  = require('./config/system')
 require('dotenv').config()
 const app = express()
 const port = process.env.PORT || 3000
@@ -9,6 +10,8 @@ app.use(bodyParser.json())
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+// Biến toàn cục
+app.locals.prefixAdmin = systemConfig.prefixAdmin
 // Database
 const database = require('./config/database')
 database.connect()

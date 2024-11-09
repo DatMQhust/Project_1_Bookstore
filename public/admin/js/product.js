@@ -16,3 +16,25 @@ if(formSearch){
     })
 
 }
+// Pagination
+const listBtn = document.querySelectorAll("[button-pagination]")
+if(listBtn){
+    let url = new URL(window.location.href)
+    listBtn.forEach(btn=>{
+        btn.addEventListener("click",()=>{
+            const page = btn.getAttribute("button-pagination")
+           if (page){
+            url.searchParams.set("page",page)
+           }
+              else{
+                url.searchParams.delete("page")
+              }
+              location.href = url.href;
+        })
+    })
+    const pageCurrent = url.searchParams.get("page") || 1;
+  const buttonCurrent = document.querySelector(`[button-pagination="${pageCurrent}"]`);
+  if(buttonCurrent) {
+    buttonCurrent.parentNode.classList.add("active");
+  }
+}

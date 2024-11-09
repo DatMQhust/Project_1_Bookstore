@@ -1,5 +1,5 @@
 extends ../../layout/default.pug 
-
+include ../../mixins/pagination.pug
 block main 
     h1 Danh sách sản phẩm
     .card.mb-3
@@ -12,7 +12,7 @@ block main
                         input.form-control.mr-sm-2(type="search", placeholder="Tìm sản phẩm", aria-label="Search", name="search")
                         button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Tìm
                 .col-md-3.text-right
-                    a.btn.btn-success(href="/admin/product/create") + Thêm sản phẩm
+                    a.btn.btn-success(href=`/${prefixAdmin}/product/create`) + Thêm sản phẩm
             p   
             table.table.table-striped.table-hover
                 thead.thead-dark
@@ -40,9 +40,10 @@ block main
                                 td 
                                     span.badge.badge-danger Inactive
                             td 
-                                a.btn.btn-primary(href=`/admin/product/edit/${item._id}`, style="margin: 8px") Sửa
+                                a.btn.btn-primary(href=`/${prefixAdmin}/product/edit/${item._id}`, style="margin: 8px") Sửa
 
-                                a.btn.btn-danger(href=`/admin/product/delete/${item._id}`, style="margin: 8px") Xóa
+                                a.btn.btn-danger(href=`/${prefixAdmin}/product/delete/${item._id}`, style="margin: 8px") Xóa
+    +pagination(currentPage, totalPage)
    
     script(src="/admin/js/product.js") 
                             
