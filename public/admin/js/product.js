@@ -7,8 +7,10 @@ if(formSearch){
         let search = e.target.elements.search.value
         console.log(search)
         if(search){
+          
             url.searchParams.set("search",search)
-        }
+        
+      }
         else{
             url.searchParams.delete("search")
         }

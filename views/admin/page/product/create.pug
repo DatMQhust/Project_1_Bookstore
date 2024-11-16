@@ -19,28 +19,24 @@ html
             .col-md-6
               label(for="name") Tên Sản Phẩm
               input.form-control(type="text", name="name", placeholder="Nhập tên sản phẩm", required)
-              
-
             .col-md-6
               label(for="author") Tác Giả
               input.form-control(type="text", name="author", placeholder="Tên tác giả", required)
-
+            .col-md-4 
+              label(for="category") Thể loại 
+              input.form-control(type="text", name="categories", placeholder="Thể loại sách", required)
            
             .col-md-4
               label(for="quantity") Số Lượng
-              input.form-control(type="number", name="quantity", placeholder="Số lượng có sẵn", required)
+              input.form-control(type="number", name="stock", placeholder="Số lượng có sẵn", required)
 
             .col-md-4
               label(for="language") Ngôn Ngữ
               input.form-control(type="text", name="language", placeholder="Ví dụ: Tiếng Việt", required)
 
-            .col-md-4
-              label(for="typePaper") Loại Bìa
-              input.form-control(type="text", name="typePaper", placeholder="Ví dụ: Bìa cứng", required)
-
             .col-md-6
               label(for="numPage") Số Trang
-              input.form-control(type="number", name="numPage", placeholder="Số trang", required)
+              input.form-control(type="number", name="page", placeholder="Số trang", required)
 
             .col-md-6
               label(for="publisher") Nhà Xuất Bản
@@ -48,7 +44,7 @@ html
 
             .col-md-6
               label(for="yearPublish") Năm Xuất Bản
-              input.form-control(type="number", name="yearPublish", placeholder="Ví dụ: 2022", required)
+              input.form-control(type="number", name="publish_year", placeholder="Ví dụ: 2022", required)
 
             .col-md-6
               label(for="price") Giá (VND)
@@ -63,12 +59,9 @@ html
               label(for="image") File Ảnh
               input.form-control(type="file", name="image", accept="image/*")
 
-            .col-md-6.form-check.d-flex.align-items-center.mt-4
-              input.form-check-input(type="checkbox", name="deleted", id="deleted")
-              label.form-check-label(for="deleted") 
-                | Đánh Dấu Đã Xóa
-              i.fas.fa-info-circle.ms-2.text-secondary(data-bs-toggle="popover", data-bs-content="Đánh dấu là đã xóa để ẩn sản phẩm khỏi danh sách")
-
+            .col-md-6 
+              label(for="isbn") Mã Số ISBN
+              input.form-control(type="text", name="isbn", placeholder="Mã số ISBN", required)
             .col-md-6
               label(for="status") Trạng Thái
               select.form-select(name="status")

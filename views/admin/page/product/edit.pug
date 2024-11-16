@@ -1,124 +1,92 @@
-//- File: edit-product.pug
 doctype html
-html(lang="en")
+html
   head
-    meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title Edit Product
-    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css")
-    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")
+    title Chỉnh Sửa Sản Phẩm
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css")
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")
+    script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js")
 
   body
     .container.mt-5
-      h1.text-center.mb-4.text-primary Edit Product
-      form(action=`/${prefixAdmin}/product/edit/${product._id}` method="POST" enctype="multipart/form-data")
-        
-        //- Name
-        .mb-3
-          label.form-label(for="name") Product Name
-          .input-group
-            span.input-group-text
-              i.fas.fa-tag
-            input.form-control(type="text" name="name" id="name" placeholder="Enter product name" required value=product.name)
+      .card.shadow-lg.p-4
+        h2.text-center.text-primary.mb-4 
+          i.fas.fa-edit.me-2
+          | Chỉnh Sửa Sản Phẩm
 
-        //- Quantity
-        .mb-3
-          label.form-label(for="quantity") Quantity
-          .input-group
-            span.input-group-text
-              i.fas.fa-boxes
-            input.form-control(type="number" name="quantity" id="quantity" placeholder="Enter available quantity" required value=product.quantity)
+        form#editProductForm(method="POST", action=`/${prefixAdmin}/product/edit/${product.isbn}` enctype="multipart/form-data")
+          .row.g-3
+            .col-md-6
+              label(for="name") Tên Sản Phẩm
+              input.form-control(type="text", name="name", placeholder="Nhập tên sản phẩm", value=product.name, required)
+            .col-md-6
+              label(for="author") Tác Giả
+              input.form-control(type="text", name="author", placeholder="Tên tác giả", value=product.author, required)
+            .col-md-4 
+              label(for="category") Thể loại 
+              input.form-control(type="text", name="categories", placeholder="Thể loại sách", value=product.categories, required)
+           
+            .col-md-4
+              label(for="quantity") Số Lượng
+              input.form-control(type="number", name="stock", placeholder="Số lượng có sẵn", value=product.stock, required)
 
-        //- Author
-        .mb-3
-          label.form-label(for="author") Author
-          .input-group
-            span.input-group-text
-              i.fas.fa-user
-            input.form-control(type="text" name="author" id="author" placeholder="Enter author's name" required value=product.author)
+            .col-md-4
+              label(for="language") Ngôn Ngữ
+              input.form-control(type="text", name="language", placeholder="Ví dụ: Tiếng Việt", value=product.language, required)
 
-        //- Language
-        .mb-3
-          label.form-label(for="language") Language
-          .input-group
-            span.input-group-text
-              i.fas.fa-language
-            input.form-control(type="text" name="language" id="language" placeholder="Enter language" required value=product.language)
+            .col-md-6
+              label(for="numPage") Số Trang
+              input.form-control(type="number", name="page", placeholder="Số trang", value=product.page, required)
 
-        //- Type of Paper
-        .mb-3
-          label.form-label(for="typePaper") Type of Paper
-          .input-group
-            span.input-group-text
-              i.fas.fa-file-alt
-            input.form-control(type="text" name="typePaper" id="typePaper" placeholder="Enter type of paper" required value=product.typePaper)
+            .col-md-6
+              label(for="publisher") Nhà Xuất Bản
+              input.form-control(type="text", name="publisher", placeholder="Tên nhà xuất bản", value=product.publisher, required)
 
-        //- Number of Pages
-        .mb-3
-          label.form-label(for="numPage") Number of Pages
-          .input-group
-            span.input-group-text
-              i.fas.fa-book
-            input.form-control(type="number" name="numPage" id="numPage" placeholder="Enter number of pages" required value=product.numPage)
+            .col-md-6
+              label(for="yearPublish") Năm Xuất Bản
+              input.form-control(type="number", name="publish_year", placeholder="Ví dụ: 2022", value=product.publish_year, required)
 
-        //- Publisher
-        .mb-3
-          label.form-label(for="publisher") Publisher
-          .input-group
-            span.input-group-text
-              i.fas.fa-building
-            input.form-control(type="text" name="publisher" id="publisher" placeholder="Enter publisher" required value=product.publisher)
+            .col-md-6
+              label(for="price") Giá (VND)
+              input.form-control(type="number", name="price", placeholder="Ví dụ: 200000", value=product.price, required)
 
-        //- Year of Publication
-        .mb-3
-          label.form-label(for="yearPublish") Year of Publication
-          .input-group
-            span.input-group-text
-              i.fas.fa-calendar
-            input.form-control(type="number" name="yearPublish" id="yearPublish" placeholder="Enter year of publication" required value=product.yearPublish)
+            .col-12
+              label(for="description") Mô Tả
+              textarea.form-control(name="description", rows="5", placeholder="Mô tả ngắn gọn về sản phẩm", required)= product.description
+              .form-text.text-muted Tối đa 500 ký tự
 
-        //- Price
-        .mb-3
-          label.form-label(for="price") Price
-          .input-group
-            span.input-group-text
-              i.fas.fa-dollar-sign
-            input.form-control(type="number" name="price" id="price" placeholder="Enter price" required step="0.01" value=product.price)
+            .col-md-6
+              label(for="image") File Ảnh
+              input.form-control(type="file", name="image", accept="image/*")
+              .form-text.text-muted Nếu không thay đổi, giữ nguyên tệp hiện tại.
 
-        //- Description
-        .mb-3
-          label.form-label(for="description") Description
-          .input-group
-            span.input-group-text
-              i.fas.fa-align-left
-            textarea.form-control(name="description" id="description" rows="3" placeholder="Enter product description" required)= product.description
+            .col-md-6 
+              label(for="isbn") Mã Số ISBN
+              input.form-control(type="text", name="isbn", placeholder="Mã số ISBN", value=product.isbn, required)
+            .col-md-6
+              label(for="status") Trạng Thái
+              select.form-select(name="status")
+                option(value="active", selected=product.status === "active") Hoạt Động
+                option(value="inactive", selected=product.status === "inactive") Ngừng Hoạt Động
 
-       
-        .mb-3
-            label.form-label(for="image" upload-image) Upload Image
-            .input-group
-                span.input-group-text
-                i.fas.fa-upload
-                input.form-control(type="file" name="image" id="image" accept="image/*" )
-                
-            img.img-thumbnail(src=product.image alt=product.name id="imagePreview" style="display: block; width: 100px; height: 100px; object-fit: cover; margin-top: 10px;")
-
-        //- Status
-        .mb-3
-          label.form-label(for="status") Status
-          .input-group
-            span.input-group-text
-              i.fas.fa-toggle-on
-            select.form-select(name="status" id="status")
-              option(value="active" selected=product.status === 'active') Active
-              option(value="inactive" selected=product.status === 'inactive') Inactive
-
-        //- Submit Button
-        .d-grid
-          button.btn.btn-primary.btn-lg(type="submit")
+          button.btn.btn-success.btn-lg.w-100.mt-4(type="submit")
             i.fas.fa-save.me-2
-            | Save Changes
+            | Lưu Chỉnh Sửa
 
-    //- Bootstrap and FontAwesome Scripts
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js")
+    //- JavaScript cho các tooltip và popover
+    script.
+      $(function () {
+        $('[data-bs-toggle="tooltip"]').tooltip();
+        $('[data-bs-toggle="popover"]').popover();
+      });
+    script.
+        if (error){
+            alert("Lỗi: " + error);
+        }
+        else{
+      $('#editProductForm').submit(function(event) {
+        event.preventDefault();
+        alert("Sản phẩm đã được chỉnh sửa thành công!");
+        this.submit();
+      });
+        }

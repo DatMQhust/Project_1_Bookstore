@@ -22,28 +22,28 @@ block main
                         th Tên sản phẩm
                         th Giá
                         th Số lượng
+                        th Lượt xem
                         th Trạng thái
-                        th Hành động
+                        th Thao tác
                 tbody
                     each item, index in products
                         tr
                             td= index + 1
                             td
-                                img(src=item.image, alt=item.name, width="100px")
+                                img(src="", alt=item.name, style="max-width: 100px; max-height: 100px;")
                             td= item.name
                             td #{item.price} VNĐ
-                            td #{item.quantity}
-                            if item.status == "active"
-                                td 
-                                    span.badge.badge-success Active
+                            td #{item.stock}
+                            td #{item.watched}
+                            if item.status === "active"
+                                td.text-success Hoạt động
                             else
-                                td 
-                                    span.badge.badge-danger Inactive
+                                td.text-danger Ngừng hoạt động
                             td 
-                                a.btn.btn-primary(href=`/${prefixAdmin}/product/edit/${item._id}`, style="margin: 8px") Sửa
+                                a.btn.btn-primary(href=`/${prefixAdmin}/product/edit/${item.isbn}`, style="margin: 8px") Sửa
 
-                                a.btn.btn-danger(href=`/${prefixAdmin}/product/delete/${item._id}`, style="margin: 8px") Xóa
-    +pagination(currentPage, totalPage)
+                                a.btn.btn-danger(href=`/${prefixAdmin}/product/delete/${item.isbn}`, style="margin: 8px") Xóa
+        +pagination(currentPage, totalPage)
    
     script(src="/admin/js/product.js") 
                             
