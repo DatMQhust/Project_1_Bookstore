@@ -5,7 +5,8 @@ const pageHelper = require('../../helpers/pagination');
 const search = require('../../helpers/search');
 // [GET] /admin/product
 module.exports.index = async (req,res)=>{
-    const count = await db.execute('select count(*) from product')
+    const [countResult] = await db.execute('select count(*) as total from product where status = "active"');
+    const count = countResult[0].total;
     const {page,limit,offset,totalPage} = pageHelper(req.query,count)
     let keyword = ""
     if (req.query.search){
@@ -13,7 +14,6 @@ module.exports.index = async (req,res)=>{
     }
     let status = "active"
     const [product] = await db.execute(`select * from product where name LIKE ? and status = ? LIMIT ? OFFSET ? `,[`%${keyword}%`,`${status}`,`${limit}`,`${offset}`])
-   
     res.render('admin/page/product/index',{
         products:product,
         totalPage: totalPage,
@@ -87,8 +87,18 @@ module.exports.editPost = async (req,res)=>{
 
 // [GET] /admin/product/deleted
 module.exports.deleted = async (req,res)=>{
-    const [product] = await db.execute('select * from product where status = ?',['inactive'])
+    const [countResult] = await db.execute('select count(*) as total from product where status = "inactive"');
+    const count = countResult[0].total;
+    const {page,limit,offset,totalPage} = pageHelper(req.query,count)
+    let keyword = ""
+    if (req.query.search){
+        keyword= req.query.search
+    }
+    let status = "inactive"
+    const [product] = await db.execute(`select * from product where name LIKE ? and status = ? LIMIT ? OFFSET ? `,[`%${keyword}%`,`${status}`,`${limit}`,`${offset}`])
     res.render('admin/page/product/deleted',{
-        products:product
+        products:product,
+        totalPage: totalPage,
+        currentPage: page
     })
 }

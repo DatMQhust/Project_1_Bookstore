@@ -43,7 +43,10 @@ block main
                                 a.btn.btn-primary(href=`/${prefixAdmin}/product/edit/${item.isbn}`, style="margin: 8px") Sửa
 
                                 a.btn.btn-danger(href=`/${prefixAdmin}/product/delete/${item.isbn}`, style="margin: 8px") Xóa
+    
         +pagination(currentPage, totalPage)
+       
+
    
     script(src="/admin/js/product.js") 
                             

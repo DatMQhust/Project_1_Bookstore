@@ -1,6 +1,6 @@
 module.exports =(query,total)=>{
     let page = 1;
-    let limit = 10;
+    let limit = 3;
     if (query.page){
         page = parseInt(query.page)
     }
