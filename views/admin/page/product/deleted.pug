@@ -12,9 +12,7 @@ block main
                         input.form-control.mr-sm-2(type="search", placeholder="Tìm sản phẩm", aria-label="Search", name="search")
                         button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Tìm
                 .col-md-3.text-right
-                    a.btn.btn-danger(href=`/${prefixAdmin}/product/deleted`) Sản phẩm đã xoá
-                .col-md-3.text-left
-                    a.btn.btn-success(href=`/${prefixAdmin}/product/create`) + Thêm sản phẩm
+                    a.btn.btn-success(href=`/${prefixAdmin}/product/`) Trở lại
             p   
             table.table.table-striped.table-hover
                 thead.thead-dark
@@ -40,9 +38,7 @@ block main
                             else
                                 td.text-danger Ngừng hoạt động
                             td 
-                                a.btn.btn-primary(href=`/${prefixAdmin}/product/edit/${item.isbn}`, style="margin: 8px") Sửa
-
-                                a.btn.btn-danger(href=`/${prefixAdmin}/product/delete/${item.isbn}`, style="margin: 8px") Xóa
+                                a.btn.btn-primary(href=`/${prefixAdmin}/product/edit/${item.isbn}`, style="margin: 8px") Thay đổi trạng thái
         +pagination(currentPage, totalPage)
    
     script(src="/admin/js/product.js") 

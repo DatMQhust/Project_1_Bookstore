@@ -8,7 +8,7 @@ html
     script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js")
 
   body
-    .container.mt-5
+    .container.mt-5d
       .card.shadow-lg.p-4
         h2.text-center.text-primary.mb-4 
           i.fas.fa-book-open.me-2
@@ -26,10 +26,6 @@ html
               label(for="category") Thể loại 
               input.form-control(type="text", name="categories", placeholder="Thể loại sách", required)
            
-            .col-md-4
-              label(for="quantity") Số Lượng
-              input.form-control(type="number", name="stock", placeholder="Số lượng có sẵn", required)
-
             .col-md-4
               label(for="language") Ngôn Ngữ
               input.form-control(type="text", name="language", placeholder="Ví dụ: Tiếng Việt", required)
