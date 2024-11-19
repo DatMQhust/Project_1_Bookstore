@@ -1,13 +1,18 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const systemConfig  = require('./config/system')
+const morgan = require('morgan')
 require('dotenv').config()
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const dbmysql = require('./config/databaseMySQL')
+const path = require('path');
 const app = express()
 const port = process.env.PORT || 3000
-// body parser
+// Middleware
+app.use(cookieParser());
+app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 // Biến toàn cục
@@ -28,21 +33,25 @@ app.use((req, res, next) => {
   res.locals.error_msg = req.flash('error_msg');
   next();
 });
-// // Database
-// const database = require('./config/database')
-// database.connect()
+
+const passport = require("./middlewares/passport");
+app.use(passport.initialize());
 // View engine setup
 app.set('views', `${__dirname}/views`); // Tìm đến thư mục tên là views
 app.set('view engine', 'pug'); // template engine sử dụng: pug
 // Routes
-const adminRoutes = require("./routes/admin/index_routes")
+const adminRoutes = require("./routes/admin/index_routes");
 adminRoutes(app)
+const auth = require('./routes/auth/index');
+auth(app);
 // const clientRoutes = require("./routes/client/index_routes")
 // clientRoutes(app)
 // Static file
 app.use(express.static(`${__dirname}/public`));
 
 app.use('/uploads', express.static('uploads'));
+
+
 
 app.get('/test', async (req, res) => {
   try {

@@ -1,0 +1,56 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Đăng Nhập
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css")
+    style.
+      body {
+        background-image: url('https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Arial', sans-serif;
+      }
+      .login-form {
+        background: rgba(255, 255, 255, 0.85);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .login-form .form-control {
+        border-radius: 20px;
+      }
+      .btn-custom {
+        background-color: #007BFF;
+        color: #fff;
+        border-radius: 20px;
+      }
+      .btn-custom:hover {
+        background-color: #0056b3;
+      }
+  body
+    .login-form
+      h2.text-center.mb-4.text-primary Đăng Nhập
+      form(action="/login" method="POST")
+        .mb-3
+          label(for="username" class="form-label") 
+            i.fas.fa-user.me-2
+            | Username
+          input#username.form-control(type="text" name="username" placeholder="Nhập tên đăng nhập" required)
+        .mb-3
+          label(for="password" class="form-label")
+            i.fas.fa-lock.me-2
+            | Password
+          input#password.form-control(type="password" name="password" placeholder="Nhập mật khẩu" required)
+        button.btn.btn-custom.w-100.mt-3(type="submit") 
+          i.fas.fa-sign-in-alt.me-2
+          | Đăng Nhập
+      p.text-center.mt-3
+        | Chưa có tài khoản? 
+        a(href="/register" class="text-primary") Đăng ký
