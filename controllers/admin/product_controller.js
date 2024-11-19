@@ -102,3 +102,18 @@ module.exports.deleted = async (req,res)=>{
         currentPage: page
     })
 }
+
+// [GET] /admin/product/detail/:isbn
+module.exports.detail = async (req,res) =>{
+    const isbn = req.params.isbn;
+    const [product] = await db.execute('select * from product where isbn = ?',[isbn]);
+    if (product.length === 0) {
+        req.flash('error_msg', 'Không tìm thấy sản phẩm');
+        return res.redirect('/admin/product');
+    }
+    else{
+        res.render('admin/page/product/detail',{
+            product:product[0]
+    })
+}
+}

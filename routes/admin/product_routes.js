@@ -9,4 +9,5 @@ router.post('/create',upload.single('image'),controller.createPost)
 router.get('/edit/:isbn',controller.edit)
 router.post('/edit/:isbn',upload.single('image'),controller.editPost)
 router.get('/deleted',controller.deleted)
+router.get('/detail/:isbn',controller.detail)
 module.exports = router
