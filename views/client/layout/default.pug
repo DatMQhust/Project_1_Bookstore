@@ -1,5 +1,6 @@
+//- index.pug
 doctype html
-html
+html(lang="en")
   head
     title #{pageTitle}
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css")
@@ -9,14 +10,11 @@ html
     link(rel="stylesheet", href="/css/style.css")
 
   body
-    
-    
     include ../partial/header.pug
-   
-
+    include ../partial/search.pug
+    
     block main
     
-
     include ../partial/footer.pug
 
     script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js") 
@@ -25,4 +23,3 @@ html
     script(src="https://cdnjs.cloudflare.com/ajax/libs/file-upload-with-preview/6.1.2/index.iife.min.js")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js") 
     script(src="admin/js/product.js")
-    

@@ -19,7 +19,6 @@ module.exports.register = async (req,res) =>{
     }
     try{
         const [users] = await db.query("SELECT * FROM user WHERE username = ?", [username]);
-        console.log(users);
         if (users.length > 0) {
             return  res.status(400).json({ message: "Username already exists" });
         }
@@ -31,9 +30,9 @@ module.exports.register = async (req,res) =>{
         const hashedPassword = await bcrypt.hash(password, salt);
         const userID = username+Date.now();
         const [result] = await db.query("INSERT INTO user (userID,username, password, fullname, email, phone) VALUES (?,?, ?, ?, ?, ?)", [userID,username, hashedPassword, fullname, email, phone]);
-        
-    if (result.affectedRows === 1) {
-            return  res.status(201).json({ message: "User created" });
+        const [role] = await db.query("INSERT INTO role (userID,roleID) VALUES (?,?)",[userID,"user"]);
+    if (result.affectedRows === 1 && role.affectedRows === 1) {
+            return  res.status(201).redirect('/login');
         }
     }
     catch (error) {
@@ -47,25 +46,29 @@ module.exports.login = async (req,res)=>{
         return  res.status(400).json({ message: "Missing required fields" });
     }
     try {
-        const [user] = await db.query("select * from user where username = ?",[username]);
-        console.log(user.length);
+        const [user] = await db.query("select user.*,role.roleID from user,role where user.username = ? and user.userID = role.userID",[username]);
         if (user.length === 0) {
             return  res.status(400).json({ message: "Invalid username or password" });
         }
         const isMatch = await bcrypt.compare(password, user[0].password);
-        console.log(isMatch);
+        
         if (!isMatch) {
-            return  res.status(400).json({ message: "Wrong password" });
+            return  res.status(400).json({message: "Wrong Password"});
         }
         const payload = {
             id: user[0].userID,
-            role: user[0].role,
+            role: user[0].roleID,
         };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.status(200).cookie("session", token).json({ message: "Login success" });
+        if (user[0].roleID =="admin"){
+            return res.status(200).cookie("session", token).json({message:"Logined as Admin"});
+        }
+        else{
+            return res.status(200).cookie("session", token).json({message:"Login sucessful"})
+        }
     }
     catch (error) {
-        return  res.status(500).json({ message: "Internal server error" });
+        return  res.status(500).redirect("/login");
     }
 
 }
@@ -80,7 +83,7 @@ module.exports.isLoggedIn = async (req,res)=>{
         if (user.length === 0) {
             return  res.status(401).json({ message: "Unauthorized" });
         }
-          res.status(200).json({ message: "Authorized" });
+          res.status(200).json({ message: "Authorized", user: user[0] });
     } catch (error) {
           res.status(401).json({ message: "Unauthorized" });
     }

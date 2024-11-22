@@ -1,6 +1,8 @@
+//- index.pug trong layout chính
 extends ../../layout/default.pug 
 include ../../mixins/pagination.pug
-block main 
+
+block main
     style.
       /* Cài đặt chung */
       .product-card {
@@ -13,7 +15,7 @@ block main
       .product-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        text-decoration: none
+        text-decoration: none;
       }
       .card-img-top {
         width: 100%;
@@ -84,14 +86,10 @@ block main
                 h5.card-title= product.name
                 //- Phần tác giả
                 p.author-text.text-muted= `Tác giả: ${product.author}`
+                //- Phần giá
+                p.card-price= `${product.price} VND`
                 
-                //- Phần giá và đánh giá
-                .d-flex.justify-content-between.align-items-center.mb-3
-                  span.card-price= `${product.price.toLocaleString()}₫`
-                  .card-rating.d-flex.align-items-center
-                    span.me-1
-                      i.fas.fa-star
-                    span.text-muted= product.starRate 
-                
+                //- Nút thích
+                button.btn.btn-like Thích
+
       +pagination(currentPage, totalPage)
-                  

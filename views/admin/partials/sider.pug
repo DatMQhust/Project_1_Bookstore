@@ -1,7 +1,11 @@
-.sider
+.sider.bg-dark.text-white
     .inner-menu
-        ul 
-            li
-                a(href = "/admin/dashboard") Dashboard
-            li 
-                a(href = "/admin/product") Products
+        ul.nav.flex-column
+            li.nav-item
+                a.nav-link.text-white(href="/admin/dashboard")
+                    i.fas.fa-house-user.me-2 
+                    |   Trang chính
+            li.nav-item
+                a.nav-link.text-white(href="/admin/product")
+                    i.fas.fa-book.me-2 
+                    |   Tài liệu

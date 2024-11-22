@@ -15,6 +15,7 @@ module.exports.index = async (req,res)=>{
     let status = "active"
     const [product] = await db.execute(`select * from product where name LIKE ? and status = ? LIMIT ? OFFSET ? `,[`%${keyword}%`,`${status}`,`${limit}`,`${offset}`])
     res.render('admin/page/product/index',{
+        user:req.user,
         products:product,
         totalPage: totalPage,
         currentPage: page
@@ -97,6 +98,7 @@ module.exports.deleted = async (req,res)=>{
     let status = "inactive"
     const [product] = await db.execute(`select * from product where name LIKE ? and status = ? LIMIT ? OFFSET ? `,[`%${keyword}%`,`${status}`,`${limit}`,`${offset}`])
     res.render('admin/page/product/deleted',{
+        user:req.user,
         products:product,
         totalPage: totalPage,
         currentPage: page

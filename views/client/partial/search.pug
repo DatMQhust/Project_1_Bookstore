@@ -1,0 +1,72 @@
+//- search.pug
+div.search-container
+  button.menu-button
+    span.icon ☰
+    |  Danh Mục Sách
+  .search-bar
+    input.search-input(type="text" placeholder="Tìm sách, tác giả, sản phẩm mong muốn...")
+    button.search-button Tìm kiếm
+  button.my-books-button
+    span.icon 📚
+    |  Sách của tôi
+
+style.
+  .search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Căn giữa các phần tử */
+    padding: 10px 30px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  .search-container .menu-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    margin-right: 10px; /* Khoảng trống sau phần tử đầu tiên */
+  }
+  .search-container .menu-button .icon {
+    margin-right: 5px;
+  }
+  .search-container .search-bar {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    max-width: 40%; /* Giới hạn chiều rộng của thanh tìm kiếm */
+    margin: 0 10px; /* Khoảng trống giữa các phần tử */
+  }
+  .search-container .search-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+  }
+  .search-container .search-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+  }
+  .search-container .my-books-button {
+    background-color: white;
+    color: #007bff;
+    padding: 8px 12px;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-left: 10px; /* Khoảng trống sau phần tử cuối cùng */
+  }
+  .search-container .my-books-button .icon {
+    margin-right: 5px;
+  }

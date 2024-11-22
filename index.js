@@ -44,8 +44,8 @@ const adminRoutes = require("./routes/admin/index_routes");
 adminRoutes(app)
 const auth = require('./routes/auth/index');
 auth(app);
-// const clientRoutes = require("./routes/client/index_routes")
-// clientRoutes(app)
+const clientRoutes = require("./routes/client/index_routes")
+clientRoutes(app)
 // Static file
 app.use(express.static(`${__dirname}/public`));
 

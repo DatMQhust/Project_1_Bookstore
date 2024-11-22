@@ -1,7 +1,17 @@
 header.header 
     .container-fluid
-        .row.align-item-center
+        .row.align-items-center
             .col-3
                 .inner-logo 
                     a(href="/admin/dashboard") ADMIN 
             .col-9
+                .d-flex.justify-content-end.align-items-center
+                    span.text-white #{user.fullname}   
+                        button.btn.btn-danger(onclick="handleLogout()") Logout
+script.
+    const handleLogout = () => {
+        // Xóa cookie phiên làm việc
+        document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        // Chuyển hướng về trang chính
+        window.location.href = "/";
+    }
