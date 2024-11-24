@@ -1,4 +1,4 @@
-const Product = require('../../models/product');
+
 const search = require('../../helpers/search');
 const pageHelper = require('../../helpers/pagination');
 const db = require('../../config/databaseMySQL');
@@ -19,4 +19,21 @@ module.exports.index = async (req,res) =>{
         currentPage: page,
     })
     
+}
+module.exports.profile = async (req,res) =>{
+    const [user] = await db.execute('select * from user where userID = ?',[req.user.userID])
+    if (user.length != 0){
+        res.render('client/page/user/profile',{
+            user:user[0]
+        })
+    }
+}
+module.exports.update = async (req,res) =>{
+    try{
+        await db.execute('update user set fullname = ?, email = ?, phone = ? where userID = ?',[req.body.name,req.body.email,req.body.phone,req.user.userID])
+        req.flash('success_msg','Cập nhật thông tin thành công')
+    }catch(err){
+        req.flash('error_msg','Cập nhật thông tin thất bại')
+    }
+    res.redirect('/profile')
 }

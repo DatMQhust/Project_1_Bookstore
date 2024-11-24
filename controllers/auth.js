@@ -75,7 +75,7 @@ module.exports.login = async (req,res)=>{
 module.exports.isLoggedIn = async (req,res)=>{
     const token = req.cookies["session"];
     if(!token){
-        return  res.status(401).json({message: "Unauthorized"});
+        return res.status(401).json({message: "Unauthorized"});
     }
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);

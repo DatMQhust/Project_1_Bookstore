@@ -5,7 +5,7 @@ const morgan = require('morgan')
 require('dotenv').config()
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const flash = require('connect-flash');
+const flash = require('express-flash');
 const dbmysql = require('./config/databaseMySQL')
 const path = require('path');
 const app = express()
@@ -17,22 +17,17 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 // Biến toàn cục
 app.locals.prefixAdmin = systemConfig.prefixAdmin
-// Cấu hình express-session
+
+// Cấu hình express-flash
+app.use(cookieParser('hgljfhlgjhdfli'));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
+  cookie : {maxAge: 60000}
 }));
-
-// Cấu hình connect-flash
 app.use(flash());
 
-// Middleware để đưa flash messages vào biến cục bộ cho tất cả các view
-app.use((req, res, next) => {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  next();
-});
 
 const passport = require("./middlewares/passport");
 app.use(passport.initialize());

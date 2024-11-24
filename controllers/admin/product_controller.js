@@ -1,4 +1,4 @@
-const Product = require('../../models/product')
+
 const db = require('../../config/databaseMySQL')
 const searchHelper = require('../../helpers/search');
 const pageHelper = require('../../helpers/pagination');
