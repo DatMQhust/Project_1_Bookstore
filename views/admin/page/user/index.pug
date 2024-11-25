@@ -1,0 +1,72 @@
+extends ../../layout/default.pug
+include ../../mixins/pagination.pug
+
+block main
+    .card.mb-3
+        .card-header.bg-primary.text-white
+            h3.card-title Danh sách người dùng
+        .card-body
+            .row
+                .col-md-6
+                    form.form-inline.my-2.my-lg-0(method="POST", action="", form-search)
+                        input.form-control.mr-sm-2(type="search", placeholder="Tìm người dùng", aria-label="Search", name="search")
+                        button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Tìm
+            p  
+            table.table.table-striped.table-hover
+                thead.thead-dark
+                    tr
+                        th STT
+                        th Tên người dùng
+                        th Email
+                        th Số điện thoại
+                        th Quyền hạn
+                        th Thao tác
+                tbody
+                    if (!users || users.length === 0)
+                        tr
+                            td(colspan="6") Không tìm thấy người dùng nào
+                    else
+                        each item, index in users
+                            tr
+                                td= index + 1
+                                td= item.fullname
+                                td= item.email
+                                td= item.phone
+                                if item.roleID === "admin"
+                                    td.text-danger Quản trị viên
+                                else
+                                    td.text-success Người dùng
+                                td
+                                    button(type="button", onclick=`changerole('${item.userID}', '${item.roleID}')`, class="btn btn-primary") Thay đổi quyền
+            +pagination(currentPage, totalPage)
+
+    script.
+        function goback() {
+            window.history.back();
+        }
+
+        function changerole(userId, currentRole) {
+            if (confirm("Bạn có chắc chắn thay đổi quyền của người dùng này không?")) {
+                fetch(`/admin/user/change-role/${userId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        roleID: currentRole === "admin" ? "user" : "admin"
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.message === "Change role success") {
+                        alert("Thay đổi quyền thành công");
+                        window.location.reload();
+                    } else {
+                        alert("Thay đổi quyền thất bại");
+                    }
+                })
+                .catch(err => {
+                    alert("Có lỗi xảy ra, vui lòng thử lại!");
+                });
+            }
+        }

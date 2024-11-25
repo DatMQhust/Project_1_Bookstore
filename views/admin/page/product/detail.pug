@@ -1,66 +1,71 @@
-extends ../../layout/default.pug
-
 block main
-    button(class="btn btn-primary" onclick="window.history.back()") Quay lại
-    h2(class="text-center text-primary mb-4") #{product.name}
+  p
+  
+    button.btn.btn-outline-primary.mb-4(onclick="window.history.back()") Quay lại
+  h2.text-center.text-primary.mb-4 #{product.name}
 
-    .container
-        // Hàng chứa hình ảnh và mã sản phẩm
-        .row.shadow-lg.rounded.p-4(style="background-color: #f9f9f9;")
-            // Cột hình ảnh
-            .col-md-4.text-center.d-flex.align-items-start.justify-content-center
-                img(
-                    src=product.image
-                    class="rounded img-fluid"
-                    style="max-width: 100%;"
-                )
-            // Cột thông tin
-            .col-md-8
-                .mb-3
-                    i.fas.fa-barcode.me-2
-                    b(class="text-info") Mã sản phẩm: 
-                    span(class="fw-bold") #{product.isbn}
-                
-        
-                .mb-3
-                    i.fas.fa-user.me-2
-                    b(class="text-info") Tác giả: 
-                    span(class="fw-bold") #{product.author}
-                .mb-3
-                    i.fas.fa-dollar-sign.me-2
-                    b(class="text-info") Giá tham khảo: 
-                    span(class="fw-bold") #{product.price} VNĐ
-                .mb-3
-                    i.fas.fa-file-alt.me-2
-                    b(class="text-info") Số trang: 
-                    span(class="fw-bold") #{product.page} trang
-                .mb-3
-                    i.fas.fa-eye.me-2
-                    b(class="text-info") Lượt xem: 
-                    span(class="fw-bold") #{product.watched}
-                .mb-3
-                    i.fas.fa-toggle-on.me-2
-                    b(class="text-info") Trạng thái: 
-                    if (product.status === "active")
-                        span(class="badge bg-success text-white") Hoạt động
-                    else
-                        span(class="badge bg-danger text-white") Dừng hoạt động
-                .mb-3
-                    i.fas.fa-tags.me-2
-                    b(class="text-info") Danh mục: 
-                    span(class="fw-bold") #{product.categories}
-                .mb-3
-                    i.fas.fa-building.me-2
-                    b(class="text-info") Nhà xuất bản: 
-                    span(class="fw-bold") #{product.publisher}
-                .mb-3
-                    i.fas.fa-calendar-alt.me-2
-                    b(class="text-info") Năm xuất bản: 
-                    span(class="fw-bold") #{product.publish_year}
-                .mb-3
-                    i.fas.fa-language.me-2
-                    b(class="text-info") Ngôn ngữ: 
-                    span(class="fw-bold") #{product.language}
-                .mt-3
-                    h5(class="text-muted") Mô tả sản phẩm:
-                    p.text-secondary #{product.description}
+  .container
+    // Hàng chứa hình ảnh và mã sản phẩm
+    .row.shadow-lg.rounded.p-4.bg-light
+      // Cột hình ảnh
+      .col-md-4.text-center.d-flex.align-items-start.justify-content-center
+        img.rounded.img-fluid(src=product.image alt=product.name style="max-width: 100%;")
+
+      // Cột thông tin
+      .col-md-8
+        .mb-3
+          i.fas.fa-barcode.me-2
+          b.text-info Mã sản phẩm: 
+          span.fw-bold #{product.isbn}
+
+        .mb-3
+          i.fas.fa-user.me-2
+          b.text-info Tác giả: 
+          span.fw-bold #{product.author}
+        .mb-3
+          i.fas.fa-dollar-sign.me-2
+          b.text-info Giá tham khảo: 
+          span.fw-bold #{product.price} VNĐ
+        .mb-3
+          i.fas.fa-file-alt.me-2
+          b.text-info Số trang: 
+          span.fw-bold #{product.page} trang
+        .mb-3
+          i.fas.fa-eye.me-2
+          b.text-info Lượt xem: 
+          span.fw-bold #{product.watched}
+        .mb-3
+          i.fas.fa-toggle-on.me-2
+          b.text-info Trạng thái: 
+          if product.status === "active"
+            span.badge.bg-success.text-white Hoạt động
+          else
+            span.badge.bg-danger.text-white Dừng hoạt động
+        .mb-3
+          i.fas.fa-tags.me-2
+          b.text-info Danh mục: 
+          span.fw-bold #{product.categories}
+        .mb-3
+          i.fas.fa-building.me-2
+          b.text-info Nhà xuất bản: 
+          span.fw-bold #{product.publisher}
+        .mb-3
+          i.fas.fa-calendar-alt.me-2
+          b.text-info Năm xuất bản: 
+          span.fw-bold #{product.publish_year}
+        .mb-3
+          i.fas.fa-language.me-2
+          b.text-info Ngôn ngữ: 
+          span.fw-bold #{product.language}
+        .mt-3
+          h5.text-muted Mô tả sản phẩm:
+          p.text-secondary #{product.description}
+
+style.
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css');
+
+
+
+script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js')
