@@ -2,17 +2,21 @@
 const search = require('../../helpers/search');
 const pageHelper = require('../../helpers/pagination');
 const db = require('../../config/databaseMySQL');
-module.exports.index = async (req,res) =>{
-    const [countResult] = await db.execute('select count(*) as total from product where status = "active"');
+module.exports.index = async (req,res) => {
+    res.render('client/layout/default')
+}
+module.exports.list = async (req,res) =>{
+    const keyword = req.query.search ? req.query.search.trim() : "";
+    let status = "active"
+    const [countResult] = await db.execute('select count(*) as total from product where status = "active" and name LIKE ?',[`%${keyword}%`]);
     const count = countResult[0].total;
     const {page,limit,offset,totalPage} = pageHelper(req.query,count)
-    let keyword = ""
-    if (req.query.search){
-        keyword= req.query.search
-    }
-    let status = "active"
-
-    const [product] = await db.execute(`select * from product where name LIKE ? and status = ? LIMIT ? OFFSET ? `,[`%${keyword}%`,`${status}`,`${limit}`,`${offset}`])
+    
+    const userID = req.user.userID
+    const [product] = await db.execute(`select p.*,CASE WHEN l.productID IS NOT NULL THEN true ELSE false END AS isLiked
+                                         from product p
+                                         left join liked l on p.productID = l.productID and l.userID = ?
+                                         where name LIKE ? and status = ? LIMIT ? OFFSET ? `,[`${userID}`,`%${keyword}%`,`${status}`,`${limit}`,`${offset}`])
     res.render('client/page/home/index',{
         products:product,
         totalPage: totalPage,
@@ -36,4 +40,25 @@ module.exports.update = async (req,res) =>{
         req.flash('error_msg','Cập nhật thông tin thất bại')
     }
     res.redirect('/profile')
+}
+module.exports.like = async (req,res) =>{
+    const id = req.body.id
+    const userID = req.user.userID
+    const [checkLike] = await db.execute('select * from liked where productID = ? and userID = ?',[id,userID])
+    if (checkLike.length == 0){
+        await db.execute('insert into liked (productID,userID) values (?,?)',[id,userID])
+        await db.execute('update product set watched = watched + 1 where productID = ?',[id])
+    }
+    else {
+        return res.status(400).json({message:"Đã thích sản phẩm này"})
+    }
+    res.status(200).json({message:"ok"})
+}
+
+module.exports.saved = async (req,res)=>{
+    const userID = req.user.userID
+    const [product] = await db.execute('select product.* from product,liked where product.productID = liked.productID and liked.userID = ?',[userID])
+    res.render('client/page/user/saved',{
+        products:product
+    })
 }

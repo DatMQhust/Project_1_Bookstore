@@ -3,7 +3,18 @@ extends ../../layout/default.pug
 block main
     .container.container-profile
         .row.justify-content-center
-            .col-md-8
+            .col-md-3 
+                .card
+                    
+                        .list-group
+                                h5.list-group-item.active Các thao tác
+                                a.list-group-item(href="/profile")
+                                    i.fas.fa-book-open.me-2
+                                    | Thông tin cá nhân 
+                                a.list-group-item(href="/saved")
+                                    i.fas.fa-laptop-code.me-2
+                                    | Sách yêu thích
+            .col-md-9
                 .card.mb-4.shadow-lg.border-0
                     .card-header.text-center.bg-gradient-primary.text-white.py-4
                         h1.animate__animated.animate__fadeInDown Thông tin cá nhân

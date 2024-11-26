@@ -1,1 +1,117 @@
 extend ../../layout/default.pug
+include ../../mixins/pagination.pug
+block main
+    .container.mt-5
+        .card
+            .card-body
+                .row
+                    // Sidebar trong card
+                    .col-md-3
+                        .card
+                            .card-body
+                                .list-group
+                                    h5.list-group-item.active Chủ đề tiêu biểu
+                                    a.list-group-item(href="#")
+                                        i.fas.fa-book-open.me-2
+                                        | Ebook miễn phí
+                                    a.list-group-item(href="#")
+                                        i.fas.fa-laptop-code.me-2
+                                        | CNTT và Truyền thông
+                                    a.list-group-item(href="#")
+                                        i.fas.fa-flask.me-2
+                                        | CN Hóa - Thực phẩm - SH ứng dụng
+                                    a.list-group-item(href="#")
+                                        i.fas.fa-bolt.me-2
+                                        | Điện, Điện tử và Viễn thông
+                                    a.list-group-item(href="#")
+                                        i.fas.fa-cogs.me-2
+                                        | Công nghệ và Kỹ thuật Cơ khí
+                                    a.list-group-item(href="#")
+                                        i.fas.fa-tshirt.me-2
+                                        | Chế biến Sợi, Vải, Giày, Da
+                                    a.list-group-item(href="#")
+                                        i.fas.fa-atom.me-2
+                                        | Khoa học vật chất
+                                    a.list-group-item(href="#")
+                                        i.fas.fa-calculator.me-2
+                                        | Toán ứng dụng
+                                    a.list-group-item(href="#")
+                                        i.fas.fa-chart-line.me-2
+                                        | Kinh tế học
+                                    a.list-group-item(href="#")
+                                        i.fas.fa-book.me-2
+                                        | Sách khác
+
+                    // Main Content trong card
+                    .col-md-9
+                        .card
+                            .card-body
+                                h3.text-center.mb-4 Tất cả sách
+                                .d-flex.justify-content-between.mb-3
+                                    .form-group
+                                        label(for="sort") 
+                                            | Sắp xếp
+                                        select.form-select.w-auto#sort
+                                            option(value="") Sắp xếp theo
+                                            option(value="popular") Phổ biến
+                                            option(value="price-asc") Giá tăng dần
+                                            option(value="price-desc") Giá giảm dần
+                                .row.row-cols-1.row-cols-sm-2.row-cols-md-3.row-cols-lg-4.g-4
+                                    each item in products
+                                        .col
+                                            .card.h-100.shadow-sm
+                                                .card-header.text-center.bg-light.py-2
+                                                    img.card-img-top(src=`${item.image}` alt=`${item.name}`)
+                                                .card-body.p-2
+                                                    h6.card-title.text-truncate.text-dark.mb-1(style="font-size: 0.9rem;") #{item.name}
+                                                    p.card-text.text-muted.small.mb-2 #{item.author}
+                                                .card-footer.d-flex.justify-content-between.align-items-center.bg-white
+                                                    span.text-danger.font-weight-bold(style="font-size: 0.85rem;") #{item.price}đ
+                                                    if (item.isLiked)
+                                                        button.btn.btn-danger.btn-sm.btn-like(onclick=`like(${item.productID})`)
+                                                            i.fas.fa-heart
+                                                            |
+                                                    else
+                                                        button.btn.btn-outline-danger.btn-sm.btn-like(onclick=`like(${item.productID})`)
+                                                            i.fas.fa-heart 
+                                                            |
+                        +pagination(currentPage,totalPage)
+                                                    
+
+    script.
+        console.log('Hello from home page');
+        function like(id){
+            console.log(id);
+            fetch(`/like/${id}`,{
+                method : 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({id: id})
+            })
+            .then(res => res.json())
+            .then(data => {
+                const btn = document.querySelector(`button[onclick="like(${id})"]`);
+                if(data.message === 'ok'){
+                    alert('Đã thêm sách vào danh sách yêu thích');
+                    btn.classList.remove('btn-outline-danger');
+                    btn.classList.add('btn-danger');
+                    btn.innerHTML = '<i class="fas fa-heart"></i>';
+                }
+                else {
+                    alert('Sách đã có trong danh sách yêu thích. Nếu muốn bỏ yêu thích sách hãy vào phần "Sách của tôi" để xem chi tiết');
+                }
+            })
+        }
+    style.
+        .btn-like {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .btn-like.btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-like.btn-outline-danger {
+            color: #dc3545;
+            border-color: #dc3545;
+        }

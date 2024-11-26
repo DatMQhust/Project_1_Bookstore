@@ -7,6 +7,9 @@ const passportJWT = passport.authenticate("jwt", {
     session: false,
 });
 router.get('/',controller.index)
+router.get('/list',passportJWT,controller.list)
 router.get('/profile',passportJWT,controller.profile)
 router.post('/update',passportJWT,controller.update)
+router.post('/like/:id',passportJWT,controller.like)
+router.get('/saved',passportJWT,controller.saved)
 module.exports = router
