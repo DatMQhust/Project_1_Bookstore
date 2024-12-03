@@ -1,0 +1,176 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Comment Card
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f9f9f9;
+      }
+
+      .comment-section {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      hr {
+        border: none;
+        border-top: 2px solid #4caf50;
+        width: 120px;
+        margin: 10px 0;
+      }
+
+      .comment-card {
+        margin-bottom: 20px;
+        padding: 20px;
+        border-bottom: 1px solid #ddd;
+        background-color: #fff;
+      }
+
+      .comment-header {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 10px;
+      }
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        background-color: #007bff;
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.2rem;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .comment-info {
+        flex: 1;
+      }
+
+      .comment-author {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+
+      .comment-time {
+        font-size: 0.875rem;
+        color: #888;
+        margin-top: 4px;
+      }
+
+      .comment-content {
+        font-size: 1rem;
+        margin-top: 4px;
+        color: #333;
+      }
+
+      .reply-card {
+        margin-top: 12px;
+        padding: 10px 16px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        border-left: 3px solid #4caf50;
+      }
+
+      .reply-header {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 8px;
+      }
+
+      .reply-avatar {
+        width: 36px;
+        height: 36px;
+        background-color: #4caf50;
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.2rem;
+        text-align: center;
+        line-height: 36px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .reply-info {
+        flex: 1;
+      }
+
+      .reply-author {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+
+      .admin-tag {
+        font-size: 0.75rem;
+        background-color: #ffc107;
+        color: #fff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-left: 10px;
+      }
+
+      .reply-time {
+        font-size: 0.875rem;
+        color: #888;
+        margin-top: 4px;
+      }
+
+      .reply-content {
+        font-size: 1rem;
+        margin-top: 4px;
+        color: #555;
+      }
+  body
+    .card
+      .comment-section
+        h2 Bình luận
+        hr
+
+        // Bình luận 1
+        .comment-card
+          .comment-header
+            .avatar Q
+            .comment-info
+              strong.comment-author qdang3265
+              p.comment-time 6 ngày trước
+          .comment-content em mới điền form thì bao giờ có sách ạ
+
+          .reply-card
+            .reply-header
+              .reply-avatar N
+              .reply-info
+                strong.reply-author Nhà xuất bản Bách Khoa Hà Nội
+                span.admin-tag Quản trị viên
+                span.reply-time 4 ngày trước
+            .reply-content bạn có thể mua trực tiếp trên web
+
+        // Bình luận 2
+        .comment-card
+          .comment-header
+            .avatar H
+            .comment-info
+              strong.comment-author hpjinguyen201
+              p.comment-time 8 ngày trước
+          .comment-content mua như thế ạ
+
+          .reply-card
+            .reply-header
+              .reply-avatar N
+              .reply-info
+                strong.reply-author Nhà xuất bản Bách Khoa Hà Nội
+                span.admin-tag Quản trị viên
+                span.reply-time 7 ngày trước
+            .reply-content
+              p bạn đăng ký mua theo form (gắn trên banner trang web); NXB sau khi nhận được thông tin sẽ gửi email xác nhận; khách hàng chuyển khoản thanh toán, NXB sẽ giao sách. Thông thường sách nhận sau 2-3 ngày tùy địa chỉ người nhận, đơn vị vận chuyển là Viettel post.

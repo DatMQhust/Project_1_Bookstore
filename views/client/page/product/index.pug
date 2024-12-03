@@ -1,0 +1,340 @@
+doctype html
+html(lang="vi")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Quản lý nội dung bằng card
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css", rel="stylesheet")
+    style.
+      body {
+        background-color: #f8f9fa;
+        font-family: 'Arial', sans-serif;
+      }
+      .book-image img {
+        border-radius: 10px;
+      }
+      .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .book-details {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      .card-title {
+        font-weight: bold;
+        color: #4CAF50;
+        text-align: center;
+      }
+      .price {
+        color: #E91E63;
+        font-size: 1.5rem;
+      }
+      button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .comment-section {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      hr {
+        border: none;
+        border-top: 2px solid #4caf50;
+        width: 120px;
+        margin: 10px 0;
+      }
+
+      .comment-card {
+        margin-bottom: 20px;
+        padding: 20px;
+        border-bottom: 1px solid #ddd;
+        background-color: #fff;
+      }
+
+      .comment-header {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 10px;
+      }
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        background-color: #007bff;
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.2rem;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .comment-info {
+        flex: 1;
+      }
+
+      .comment-author {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+
+      .comment-time {
+        font-size: 0.875rem;
+        color: #888;
+        margin-top: 4px;
+      }
+
+      .comment-content {
+        font-size: 1rem;
+        margin-top: 4px;
+        color: #333;
+      }
+
+      .reply-card {
+        margin-top: 12px;
+        padding: 10px 16px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        border-left: 3px solid #4caf50;
+      }
+
+      .reply-header {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 8px;
+      }
+
+      .reply-avatar {
+        width: 36px;
+        height: 36px;
+        background-color: #4caf50;
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.2rem;
+        text-align: center;
+        line-height: 36px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .reply-info {
+        flex: 1;
+      }
+
+      .reply-author {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+
+      .admin-tag {
+        font-size: 0.75rem;
+        background-color: #ffc107;
+        color: #fff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-left: 10px;
+      }
+
+      .reply-time {
+        font-size: 0.875rem;
+        color: #888;
+        margin-top: 4px;
+      }
+
+      .reply-content {
+        font-size: 1rem;
+        margin-top: 4px;
+        color: #555;
+      }
+      .comment-box-container {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 1000px;
+      }
+
+      .comment-box-container h3 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        color: #333;
+        text-align: center;
+      }
+
+      textarea {
+        width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 1rem;
+        color: #555;
+        resize: none;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #4caf50;
+        box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+      }
+
+      .action-row {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .char-count {
+        font-size: 0.9rem;
+        color: #999;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+       
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+  body
+    include ../../partial/header.pug
+    include ../../partial/search.pug
+    .container.py-4
+      .row
+        // Card hình ảnh sách
+        .col-md-4
+          .book-image.card
+            img.card-img-top(src=`${product.image || '/images/default.jpg'}`, alt="Bìa sách")
+            .card-body
+              h5.card-title #{product.name || 'Tên sách không khả dụng'}
+        // Phần nội dung chi tiết
+        .col-md-8
+          .book-details
+            .card.mb-3
+              .card-body
+                h5.card-title Chi tiết sách
+                dl.row
+                  dt.col-sm-4 Tác giả:
+                  dd.col-sm-8 #{product.author || 'Đang cập nhật'}
+                  dt.col-sm-4 Nhà xuất bản:
+                  dd.col-sm-8 #{product.publisher || 'Đang cập nhật'}
+                  dt.col-sm-4 Ngôn ngữ:
+                  dd.col-sm-8 #{product.language || 'Không xác định'}
+                  dt.col-sm-4 Số trang:
+                  dd.col-sm-8 #{product.page || 'Không rõ'}
+            .card.mb-3
+              .card-body
+                h5.card-title Giá bán
+                p.price  Tham khảo : #{product.price || 'Liên hệ'} đ
+                p.text-muted Nơi bán :  
+            .card.mb-3
+              .card-body
+                h5.card-title Mô tả
+                p #{product.description || 'Chưa có thông tin'}
+            .card
+              .card-body
+                if (comments.length > 0)
+                  .comment-section
+                    h2 Bình luận
+                    hr
+                    each comment in comments
+                      .comment-card
+                        .d-flex.align-items-start.mb-3
+                          .avatar.text-uppercase #{comment.fullname[0]}
+                          .ms-3
+                            h6.mb-0 #{comment.fullname}
+                            p.text-muted.small #{comment.time.toLocaleDateString('en-GB')}
+                        p.comment-content.mb-2 #{comment.content}
+                        if comment.reply.length > 0
+                          each reply in comment.reply
+                            .reply-card.ms-4
+                              h6.text-success.mb-0 Admin
+                              span.badge.bg-warning Quản trị viên
+                              p.text-muted.small #{reply.time.toLocaleDateString('en-GB')}
+                              p.reply-content #{reply.content}
+                else
+                  .alert.alert-info Chưa có bình luận nào
+                #notification-area
+                // Khung nhập bình luận
+                .comment-box-container.mt-4
+                  h5.mb-0 Viết bình luận
+                  textarea#comment-input.form-control(
+                    placeholder="Nhập bình luận của bạn...", 
+                    rows="4"
+                  ) 
+                  .text-end.mt-2
+                    button.btn.btn-primary(
+                      type="button", 
+                      onclick=`comment('${product.productID}')`
+                    ) Gửi  
+
+    script.
+      function showNotification(message) {
+          const notificationArea = document.getElementById('notification-area');
+          const notificationHTML = `
+              <div class="alert alert-success mt-3" role="alert">
+                  ${message}
+              </div>
+          `;
+          notificationArea.innerHTML = notificationHTML;
+          setTimeout(() => {
+              notificationArea.innerHTML = '';
+          }, 5000);
+      }
+      async function comment(id) {
+        const commentInput = document.getElementById('comment-input');
+        const content = commentInput.value.trim();
+        console.log(content,id);
+        if (!content) {
+            alert('Vui lòng nhập nội dung bình luận!');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/comment/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id, content })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                showNotification("Bình luận của bạn đã được gửi đi, quản trị viên sẽ sớm phản hồi");
+                commentInput.value = ""; // Xóa nội dung trong khung nhập
+            } else {
+                showNotification("Có lỗi xảy ra vui lòng thử lại");
+            }
+        } catch (error) {
+            showNotification("Có lỗi xảy ra vui lòng thử lại");
+        };
+      }
+    

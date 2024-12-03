@@ -1,72 +1,108 @@
 //- search.pug
-div.search-container
-  button.menu-button
-    span.icon ☰
-    |  Danh Mục Sách
-  .search-bar
-    input.search-input(type="text" placeholder="Tìm sách, tác giả, sản phẩm mong muốn...")
-    button.search-button Tìm kiếm
-  button.my-books-button
-    span.icon 📚
-    |  Sách của tôi
+div.search-bar-container
+  .search-container
+    button.menu-button
+      span.icon ☰
+      |  Danh Mục Sách
+    .search-bar
+      input.search-input(type="text" placeholder="Tìm sách, tác giả, sản phẩm mong muốn...")
+      button.search-button Tìm kiếm
+    button.my-books-button(onclick="location.href='/saved'")
+      span.icon 📚
+      |  Sách của tôi
 
 style.
+  /* Namespace CSS */
+  .search-bar-container {
+    padding: 15px;
+    background-color: #f8f9fa; /* Màu nền nhẹ */
+  }
+
   .search-container {
     display: flex;
     align-items: center;
-    justify-content: center; /* Căn giữa các phần tử */
-    padding: 10px 30px;
+    justify-content: space-between; /* Khoảng cách đều giữa các phần tử */
+    padding: 10px 20px;
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    margin-top: 10px;
   }
+
   .search-container .menu-button {
     background-color: #007bff;
     color: white;
-    padding: 8px 12px;
+    padding: 10px 16px;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
-    border-radius: 4px;
-    margin-right: 10px; /* Khoảng trống sau phần tử đầu tiên */
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+    margin-right: 0px; /* Khoảng cách hợp lý giữa nút và thanh tìm kiếm */
+    margin-left : 100px;
   }
+
+  .search-container .menu-button:hover {
+    background-color: #0056b3; /* Màu khi hover */
+  }
+
   .search-container .menu-button .icon {
-    margin-right: 5px;
+    margin-right: 8px; /* Khoảng cách giữa biểu tượng và chữ */
   }
+
   .search-container .search-bar {
     flex-grow: 1;
     display: flex;
     align-items: center;
-    max-width: 40%; /* Giới hạn chiều rộng của thanh tìm kiếm */
-    margin: 0 10px; /* Khoảng trống giữa các phần tử */
+    max-width: 600px; /* Giới hạn chiều rộng tối đa */
+    margin: 0 0px; /* Khoảng cách hai bên */
   }
+
   .search-container .search-input {
     flex-grow: 1;
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px 0 0 4px;
+    border-radius: 6px 0 0 6px;
+    font-size: 16px;
   }
+
+  .search-container .search-input:focus {
+    outline: none;
+    border-color: #007bff; /* Đổi màu viền khi focus */
+  }
+
   .search-container .search-button {
     background-color: #007bff;
     color: white;
-    padding: 8px 12px;
+    padding: 10px 16px;
     border: none;
-    border-radius: 0 4px 4px 0;
+    border-radius: 0 6px 6px 0;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }
+
+  .search-container .search-button:hover {
+    background-color: #0056b3;
+  }
+
   .search-container .my-books-button {
     background-color: white;
     color: #007bff;
-    padding: 8px 12px;
+    padding: 10px 16px;
     border: 1px solid #007bff;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    margin-left: 10px; /* Khoảng trống sau phần tử cuối cùng */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-right:100px;
   }
+
+  .search-container .my-books-button:hover {
+    background-color: #007bff;
+    color: white;
+  }
+
   .search-container .my-books-button .icon {
-    margin-right: 5px;
+    margin-right: 8px;
   }

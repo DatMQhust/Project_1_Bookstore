@@ -59,7 +59,7 @@ module.exports.login = async (req,res)=>{
             id: user[0].userID,
             role: user[0].roleID,
         };
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
         if (user[0].roleID =="admin"){
             return res.status(200).cookie("session", token).json({message:"Logined as Admin"});
         }

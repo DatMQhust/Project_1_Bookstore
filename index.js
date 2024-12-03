@@ -49,13 +49,7 @@ app.use('/uploads', express.static('uploads'));
 
 
 app.get('/test', async (req, res) => {
-  try {
-    const rows = await dbmysql.query('SELECT * FROM product');
-    console.log(rows[0])
-    res.json(rows[0]);
-  } catch (error) {
-    res.status(500).json({ error: 'Database query failed' });
-  }
+  res.render("test/testview.pug")
 });
 
 // App listen

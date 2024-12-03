@@ -1,0 +1,39 @@
+extends ../../layout/default.pug
+include ../../mixins/pagination.pug
+
+block main
+    .card.mb-3
+        .card-header.bg-primary.text-white
+            h3.card-title Danh sách bình luận
+        .card-body
+            .row
+                .col-md-6
+                    form.form-inline.my-2.my-lg-0(method="POST", action="", form-search)
+                        input.form-control.mr-sm-2(type="search", placeholder="Tìm id sản phẩm", aria-label="Search", name="search")
+                        button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Tìm
+            p   
+            table.table.table-striped.table-hover
+                thead.thead-dark
+                    tr
+                        th(style="width: 5%") STT
+                        th(style="width: 20%") Sản phẩm
+                        th(style="width: 15%") Người dùng
+                        th(style="width: 40%") Nội dung
+                        th(style="width: 20%") Thao tác
+                tbody
+                    if (comments.length === 0)
+                        tr
+                            td(colspan="5") Không tìm thấy người dùng nào
+                    else
+                        each item, index in comments
+                            tr
+                                td= index + 1
+                                td= item.productName
+                                td= item.userFullname
+                                td(style="width: 40%")= item.content
+                                td
+                                    button(type="button", class="btn btn-primary") Trả lời
+                                    button(type="button", class="btn btn-danger") Xóa
+            +pagination(currentPage, totalPage)
+
+    

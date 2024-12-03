@@ -12,4 +12,6 @@ router.get('/profile',passportJWT,controller.profile)
 router.post('/update',passportJWT,controller.update)
 router.post('/like/:id',passportJWT,controller.like)
 router.get('/saved',passportJWT,controller.saved)
+router.get('/detail/:id',controller.detail)
+router.post('/comment/:id',passportJWT,controller.commendSend)
 module.exports = router

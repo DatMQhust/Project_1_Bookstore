@@ -17,7 +17,7 @@ module.exports.list = async (req,res) =>{
                                          from product p
                                          left join liked l on p.productID = l.productID and l.userID = ?
                                          where name LIKE ? and status = ? LIMIT ? OFFSET ? `,[`${userID}`,`%${keyword}%`,`${status}`,`${limit}`,`${offset}`])
-    res.render('client/page/home/index',{
+    res.render('client/page/home/list',{
         products:product,
         totalPage: totalPage,
         currentPage: page,
@@ -61,4 +61,59 @@ module.exports.saved = async (req,res)=>{
     res.render('client/page/user/saved',{
         products:product
     })
+}
+
+module.exports.detail = async (req, res) => {
+    const id = req.params.id;
+    const [product] = await db.execute('select * from product where productID = ?', [id]);
+    if (product.length == 0) {
+        return res.redirect('/404');
+    }
+    // const query = `select c.*,u.fullname,r.replyID,r.content as reply_content from comment c,user u,reply r where c.productID = ? and c.userID = u.userID and r.commentID = c.commentID`;
+    // const [comments] = await db.execute(query, [id]);
+
+    const query = `
+    SELECT c.*, u.fullname, r.replyID, r.content AS reply_content, r.created_at as time
+    FROM comment c
+    JOIN user u ON c.userID = u.userID
+    LEFT JOIN reply r ON r.commentID = c.commentID
+    WHERE c.productID = ?
+`;
+    const [rows] = await db.execute(query, [id]);
+
+    const commentsMap = new Map();
+    rows.forEach((row) => {
+        if (!commentsMap.has(row.commentID)) {
+            commentsMap.set(row.commentID, {
+                ...row,
+                reply: []
+            });
+        }
+        if (row.replyID) {
+            commentsMap.get(row.commentID).reply.push({
+                replyID: row.replyID,
+                content: row.reply_content,
+                time: row.time
+            });
+        }
+    });
+
+    const comments = Array.from(commentsMap.values());
+    console.log(comments);
+    res.render('client/page/product/index', {
+        product: product[0],
+        comments: comments
+    });
+}
+module.exports.commendSend = async (req,res)=>{
+    const id = req.body.id;
+    const content = req.body.content;
+    const userID = req.user.userID;
+    try{
+        await db.execute("insert into penddingcomment (productID,userID,content) values (?,?,?)",[id,userID,content])
+        res.status(200).json({success: true,message:"ok"})
+    }
+    catch(err){
+        res.status(400).json({success: false,message:"error"})
+    }
 }

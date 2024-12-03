@@ -1,0 +1,75 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Comment Section
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f9f9f9;
+      }
+
+      .card {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .comment-section {
+        max-width: 100%;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      hr {
+        border: none;
+        border-top: 2px solid #4caf50;
+        width: 120px;
+        margin: 10px 0;
+      }
+
+      .comment-card, .reply-card, .comment-box {
+        margin-bottom: 20px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+
+  body
+    .card
+      .comment-section
+        h2 Bình luận
+        hr
+
+        // Bình luận
+        .comment-card
+          .comment-header
+            .avatar M
+            .comment-info
+              strong.comment-author mhuy35269
+              p.comment-time 20 ngày trước
+          .comment-content Đặt mua ở đâu thế ạ
+
+          .reply-card
+            .reply-header
+              .reply-avatar N
+              .reply-info
+                strong.reply-author Nhà xuất bản Bách Khoa Hà Nội
+                span.admin-tag Quản trị viên
+                span.reply-time 15 ngày trước
+            .reply-content bạn vào trang web NXB rồi vào đăng ký mua sách nhé
+
+        // Hộp nhập bình luận
+        .comment-box
+          textarea(placeholder="Để lại bình luận của bạn...")
+          p.char-count 0/1500
+          button(type="button") Gửi bình luận
