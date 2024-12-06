@@ -1,0 +1,34 @@
+extends ../../layout/default.pug
+
+block main 
+    .container.my-5
+        .card.shadow-sm.rounded-3
+            .card-header.bg-primary.text-white.d-flex.align-items-center
+                h3.card-title.mb-0 Bình luận 
+            .card-body
+                .mb-4
+                    i.fas.fa-solid.fa-book.me-2.text-primary
+                    b.text-info     Tên sách: 
+                    span.fw-bold.text-dark #{comment.productName}
+                .mb-4
+                    i.fas.fa-user.me-2.text-primary
+                    b.text-info     Người dùng: 
+                    span.fw-bold.text-dark #{comment.userFullname}
+                .mb-4
+                    i.fas.fa-comment-alt.me-2.text-primary
+                    b.text-info     Nội dung: 
+                    span.fw-bold.text-dark #{comment.content}   
+                button.btn.btn-danger(onclick="window.history.back()") Quay lại
+
+        .card.shadow-sm.rounded-3.mt-4
+            .card-header.bg-primary.text-white.d-flex.align-items-center
+                h3.card-title.mb-0 Trả lời bình luận
+            .card-body
+                form(method="POST", action=`/admin/comment/reply-comment/${comment.pendID}`, id="form-reply-comment")
+                    .form-group.mb-3
+                        label(for="content").fw-bold Nội dung
+                        textarea.form-control(name="content", id="content", rows="5", required placeholder="Nhập nội dung trả lời...")
+                    input(type="hidden", name="pendID", id="pendID", value=comment.pendID)
+                    button.btn.btn-primary(type="submit" onclick="replyComment()")
+                        i.fas.fa-paper-plane.me-2
+                        | Gửi

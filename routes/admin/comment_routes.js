@@ -8,4 +8,7 @@ const passportJWT = passport.authenticate("jwt-admin", {
     session: false,
 });
 router.get('/',passportJWT,controller.index)
+router.get('/reply-comment/:id',passportJWT,controller.replyCommentGet)
+router.post('/reply-comment/:id',passportJWT,controller.replyCommentPost)
+router.post('/delete',passportJWT,controller.deleteComment)
 module.exports = router

@@ -19,21 +19,43 @@ block main
                         th(style="width: 20%") Sản phẩm
                         th(style="width: 15%") Người dùng
                         th(style="width: 40%") Nội dung
-                        th(style="width: 20%") Thao tác
+                        th(style="width: 20%") Thao tác 
                 tbody
-                    if (comments.length === 0)
+                    if !comments || comments.length === 0
                         tr
-                            td(colspan="5") Không tìm thấy người dùng nào
+                            td(colspan="5" class="text-center text-muted") Không có bình luận nào được tìm thấy
                     else
                         each item, index in comments
                             tr
                                 td= index + 1
-                                td= item.productName
-                                td= item.userFullname
-                                td(style="width: 40%")= item.content
+                                td= item.productName || "Không xác định"
+                                td= item.userFullname || "Không xác định"
+                                td(style="width: 40%")= item.content || "Không có nội dung"
                                 td
-                                    button(type="button", class="btn btn-primary") Trả lời
-                                    button(type="button", class="btn btn-danger") Xóa
-            +pagination(currentPage, totalPage)
+                                    a.btn.btn-primary(href=`/${prefixAdmin}/comment/reply-comment/${item.pendID}`) Trả lời
+                                    button(type="button", class="btn btn-danger", onclick=`deleteComment('${item.pendID}')`) Xóa
+            +pagination(currentPage, totalPage || 1)
 
-    
+    script.
+        async function deleteComment(id) {
+            if (confirm("Bạn có muốn xoá bình luận này?")) {
+                try {
+                    const response = await fetch(`/admin/comment/delete`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ pendID: id })
+                    });
+                    const data = await response.json();
+                    if (response.ok && data.success) {
+                        alert("Xoá bình luận thành công");
+                        window.location.reload();
+                    } else {
+                        alert(data.message || "Xoá bình luận thất bại");
+                    }
+                } catch (error) {
+                    alert("Đã xảy ra lỗi khi xoá bình luận");
+                }
+            }
+        }
