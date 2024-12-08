@@ -1,5 +1,6 @@
 extends ../../layout/default.pug 
 include ../../mixins/pagination.pug
+
 block main 
     h1 Danh sách sản phẩm
     .card.mb-3
@@ -8,7 +9,7 @@ block main
         .card-body
             .row
                 .col-md-6
-                    form.form-inline.my-2.my-lg-0(method="POST",action="",form-search)
+                    form.form-inline.my-2.my-lg-0(method="POST", action="", form-search)
                         input.form-control.mr-sm-2(type="search", placeholder="Tìm sản phẩm", aria-label="Search", name="search")
                         button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Tìm
                 .col-md-3.text-right
@@ -19,13 +20,13 @@ block main
             table.table.table-striped.table-hover
                 thead.thead-dark
                     tr
-                        th STT
-                        th Hình ảnh
-                        th Tên sản phẩm
-                        th Giá
-                        th Lượt xem
-                        th Trạng thái
-                        th Thao tác
+                        th(style="width: 5%;") STT
+                        th(style="width: 10%;") Hình ảnh
+                        th(style="width: 30%;") Tên sản phẩm
+                        th(style="width: 15%;") Giá
+                        th(style="width: 10%;") Lượt xem
+                        th(style="width: 10%;") Trạng thái
+                        th(style="width: 20%;") Thao tác
                 tbody
                     each item, index in products
                         tr
@@ -43,10 +44,7 @@ block main
                                 a.btn.btn-primary(href=`/${prefixAdmin}/product/edit/${item.isbn}`, style="margin: 8px") Sửa
                                 a.btn.btn-danger(href=`/${prefixAdmin}/product/delete/${item.isbn}`, style="margin: 8px") Xóa
                                 a.btn.btn-secondary(href=`/${prefixAdmin}/product/detail/${item.isbn}`, style="margin: 8px") Chi tiết
-    
-        +pagination(currentPage, totalPage)
-       
 
-   
-    script(src="/admin/js/product.js") 
-                            
+        +pagination(currentPage, totalPage)
+
+    script(src="/admin/js/product.js")

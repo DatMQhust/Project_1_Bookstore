@@ -20,11 +20,13 @@ html
               label(for="name") Tên Sản Phẩm
               input.form-control(type="text", name="name", placeholder="Nhập tên sản phẩm", value=product.name, required)
             .col-md-6
-              label(for="author") Tác Giả
-              input.form-control(type="text", name="author", placeholder="Tên tác giả", value=product.author, required)
+              label(for="author") Tác Giả *(Sửa trong phần Quản lý tác giả)
+              input.form-control(type="text", name="author", placeholder="Tên tác giả", value=authordefault, readonly)
             .col-md-4 
               label(for="category") Thể loại 
-              input.form-control(type="text", name="categories", placeholder="Thể loại sách", value=product.categories, required)
+              select.form-select(name="category")
+                each category in categories
+                  option(value=category.categoryID, selected=category.categoryID === product.categoryID)= category.name
 
             .col-md-4
               label(for="language") Ngôn Ngữ

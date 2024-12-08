@@ -24,7 +24,9 @@ html
               input.form-control(type="text", name="author", placeholder="Tên tác giả", required)
             .col-md-4 
               label(for="category") Thể loại 
-              input.form-control(type="text", name="categories", placeholder="Thể loại sách", required)
+              select.form-select(name="category")
+                each category in categories
+                  option(value=category.categoryID)= category.name
            
             .col-md-4
               label(for="language") Ngôn Ngữ
