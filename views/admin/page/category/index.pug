@@ -1,0 +1,44 @@
+extends ../../layout/default.pug
+include ../../mixins/pagination.pug
+
+block main
+    .card.mb-3
+        .card-header.bg-primary.text-white
+            h3.card-title Danh sách danh mục
+        .card-body
+            .row
+                .col-md-6
+                    form.form-inline.my-2.my-lg-0(method="POST", action="", form-search)
+                        input.form-control.mr-sm-2(type="search", placeholder="Tìm danh mục", aria-label="Search", name="search")
+                        button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Tìm
+                .col-md-2
+                .col-md-3 
+                    a.btn.btn-success.my-2.my-sm-o(href="/admin/category/addnew") +Thêm danh mục mới
+            p  
+            table.table.table-striped.table-hover
+                thead.thead-dark
+                    tr
+                        th STT
+                        th Tên danh mục
+                        th Số lượng sách
+                        th Thao tác
+                tbody
+                    if (!categories || categories.length === 0)
+                        tr
+                            td(colspan="6") Không tìm danh mục nào
+                    else
+                        each item, index in categories
+                            tr
+                                td= index + 1
+                                td= item.name
+                                td= numberBook[index]  
+                                td
+                                    button(type="button", class="btn btn-primary") Sách thuộc danh mục
+            +pagination(currentPage, totalPage)
+
+    script.
+        function goback() {
+            window.history.back();
+        }
+
+    
