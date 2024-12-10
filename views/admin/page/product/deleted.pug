@@ -12,7 +12,7 @@ block main
                         input.form-control.mr-sm-2(type="search", placeholder="Tìm sản phẩm", aria-label="Search", name="search")
                         button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Tìm
                 .col-md-3.text-right
-                    a.btn.btn-success(href=`/${prefixAdmin}/product/`) Trở lại
+                    btn.btn.btn-success(onclick="window.history.back()") Trở lại
             p   
             table.table.table-striped.table-hover
                 thead.thead-dark
