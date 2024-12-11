@@ -2,24 +2,29 @@ extends ../../layout/default.pug
 include ../../mixins/pagination.pug
 
 block main 
-    h1 Danh sách sản phẩm
-    .card.mb-3
-        .card-header.bg-primary.text-white
-            h3.card-title Danh sách sản phẩm
+    .card.mb-4.shadow-sm.rounded
+        .card-header.bg-primary.text-white.py-3
+            h3.card-title.text-center.mb-0 Danh sách sản phẩm
         .card-body
-            .row
+            .row.align-items-center.mb-4
                 .col-md-6
-                    form.form-inline.my-2.my-lg-0(method="POST", action="", form-search)
-                        input.form-control.mr-sm-2(type="search", placeholder="Tìm sản phẩm", aria-label="Search", name="search")
-                        button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Tìm
+                    form.form-inline(method="POST", action="", form-search)
+                        input.form-control.mr-2(type="search", placeholder="Tìm sản phẩm", aria-label="Search", name="search")
+                        button.btn.btn-outline-light(type="submit")
+                            i.fas.fa-search.mr-1
+                            | Tìm
                 .col-md-3.text-right
-                    a.btn.btn-danger(href=`/${prefixAdmin}/product/deleted`) Sản phẩm đã xoá
+                    a.btn.btn-danger.shadow-sm(href=`/${prefixAdmin}/product/deleted`)
+                        i.fas.fa-trash.mr-1
+                        | Sản phẩm đã xoá
                 .col-md-3.text-left
-                    a.btn.btn-success(href=`/${prefixAdmin}/product/create`) + Thêm sản phẩm
-            p   
-            table.table.table-striped.table-hover
-                thead.thead-dark
-                    tr
+                    a.btn.btn-success.shadow-sm(href=`/${prefixAdmin}/product/create`)
+                        i.fas.fa-plus.mr-1
+                        | Thêm sản phẩm
+
+            table.table.table-hover.table-bordered.rounded.shadow-sm
+                thead.thead-dark 
+                    tr.text-center
                         th(style="width: 5%;") STT
                         th(style="width: 10%;") Hình ảnh
                         th(style="width: 30%;") Tên sản phẩm
@@ -29,11 +34,11 @@ block main
                         th(style="width: 20%;") Thao tác
                 tbody
                     each item, index in products
-                        tr
+                        tr.text-center
                             td= index + 1
-                            td
-                                img(src=item.image, alt=item.name, style="max-width: 100px; max-height: 100px;")
-                            td= item.name
+                            td 
+                                img.img-thumbnail(src=item.image, alt=item.name, style="max-width: 80px; max-height: 80px;")
+                            td.text-left= item.name
                             td #{item.price} VNĐ
                             td #{item.watched}
                             if item.status === "active"
@@ -41,9 +46,15 @@ block main
                             else
                                 td.text-danger Ngừng hoạt động
                             td 
-                                a.btn.btn-primary(href=`/${prefixAdmin}/product/edit/${item.isbn}`, style="margin: 8px") Sửa
-                                a.btn.btn-danger(href=`/${prefixAdmin}/product/delete/${item.isbn}`, style="margin: 8px") Xóa
-                                a.btn.btn-secondary(href=`/${prefixAdmin}/product/detail/${item.isbn}`, style="margin: 8px") Chi tiết
+                                a.btn.btn-info.btn-sm.mr-1(href=`/${prefixAdmin}/product/detail/${item.isbn}`)
+                                    i.fas.fa-info-circle.mr-1
+                                    | Chi tiết
+                                a.btn.btn-warning.btn-sm.mr-1(href=`/${prefixAdmin}/product/edit/${item.isbn}`)
+                                    i.fas.fa-edit.mr-1
+                                    | Sửa
+                                a.btn.btn-danger.btn-sm(href=`/${prefixAdmin}/product/delete/${item.isbn}`)
+                                    i.fas.fa-trash-alt.mr-1
+                                    | Xóa
 
         +pagination(currentPage, totalPage)
 

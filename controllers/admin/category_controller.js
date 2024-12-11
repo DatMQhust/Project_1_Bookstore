@@ -96,12 +96,11 @@ module.exports.delete = async (req,res) =>{
 module.exports.edit = async (req,res) =>{
     const id = req.body.id;
     const name = req.body.name;
-    console.log(id,name)
     const [cate] = await db.execute(`select * from category where name = ?`,[name]);
-    // if(cate.length != 0){
-    //     return res.status(500).json({success : false,message : "Danh mục đã tồn tại"})
-    // }
-    // else{
+    if(cate.length != 0){
+        return res.status(500).json({success : false,message : "Danh mục đã tồn tại"})
+    }
+    else{
         try{
             await db.execute(`update category set name = ? where categoryID = ?`,[name,id]);
             return res.status(200).json({success : true,message : "Sửa danh mục thành công "})
@@ -109,6 +108,6 @@ module.exports.edit = async (req,res) =>{
         catch(e){
             return res.status(401).json({success: false, message:"Có lỗi xảy ra vui lòng thử lại"})
         }
-    // }
+     }    
 
 }

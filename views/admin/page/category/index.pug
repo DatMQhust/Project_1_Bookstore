@@ -2,24 +2,25 @@ extends ../../layout/default.pug
 include ../../mixins/pagination.pug
 
 block main
-    .card.mb-3
-        .card-header.bg-primary.text-white
-            h3.card-title Danh sách danh mục
+    .card.mb-4.shadow-sm.rounded
+        .card-header.bg-primary.text-white.py-3
+            h3.card-title.text-center.mb-0 Danh sách danh mục
         .card-body
-            .row
+            .row.align-items-center.mb-4
                 .col-md-6
-                    form.form-inline.my-2.my-lg-0(method="POST", action="", form-search)
-                        input.form-control.mr-sm-2(type="search", placeholder="Tìm danh mục", aria-label="Search", name="search")
-                        button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Tìm
-                .col-md-2
-                .col-md-3 
-                    // Nút mở modal
-                    button.btn.btn-success.my-2.my-sm-o(type="button", data-toggle="modal", data-target="#addCategoryModal") +Thêm danh mục mới
+                    form.form-inline(method="POST", action="", form-search)
+                        input.form-control.mr-2(type="search", placeholder="Tìm danh mục", aria-label="Search", name="search")
+                        button.btn.btn-outline-light(type="submit") 
+                            i.fas.fa-search.mr-1 
+                            | Tìm
+                .col-md-3.offset-md-3.text-right
+                    button.btn.btn-success.shadow-sm(type="button", data-toggle="modal", data-target="#addCategoryModal") 
+                        i.fas.fa-plus.mr-1
+                        | Thêm danh mục mới
 
-            p  
-            table.table.table-striped.table-hover
+            table.table.table-hover.table-bordered.rounded.shadow-sm
                 thead.thead-dark 
-                    tr
+                    tr.text-center
                         th STT
                         th Tên danh mục
                         th Số lượng sách
@@ -27,25 +28,31 @@ block main
                 tbody
                     if (!categories || categories.length === 0)
                         tr
-                            td(colspan="6") Không tìm danh mục nào
+                            td.text-center(colspan="4") Không tìm thấy danh mục nào
                     else
                         each item, index in categories
-                            tr
+                            tr.text-center
                                 td= index + 1
-                                td= item.name
+                                td.text-left= item.name
                                 td= numberBook[index]  
                                 td
-                                    a.btn.btn-primary(href=`/admin/category/${item.name}/${numberBook[index]}`) Sách thuộc danh mục
+                                    a.btn.btn-info.btn-sm.mr-1(href=`/admin/category/${item.name}/${numberBook[index]}`) 
+                                        i.fas.fa-book.mr-1 
+                                        | Xem sách
+                                    button.btn.btn-warning.btn-sm.mr-1(data-id=item.categoryID, data-toggle='modal', data-target='#editCategoryModal') 
+                                        i.fas.fa-edit.mr-1
+                                        | Sửa
+                                    button.btn.btn-danger.btn-sm(data-id=item.categoryID, onclick='deleteCategory(this)') 
+                                        i.fas.fa-trash-alt.mr-1
+                                        | Xóa
 
-                                    button.btn.btn-danger(data-id=item.categoryID, onclick='deleteCategory(this)') Xóa
-                                    button.btn.btn-primary(data-id=item.categoryID, data-toggle='modal', data-target='#editCategoryModal') Đổi tên
             +pagination(currentPage, totalPage)
 
     // Modal thêm danh mục mới
     .modal.fade#addCategoryModal(tabindex="-1", role="dialog", aria-labelledby="addCategoryModalLabel", aria-hidden="true")
-        .modal-dialog(role="document")
+        .modal-dialog.modal-dialog-centered(role="document")
             .modal-content
-                .modal-header
+                .modal-header.bg-success.text-white
                     h5.modal-title#addCategoryModalLabel Thêm danh mục mới
                     button.close(type="button", data-dismiss="modal", aria-label="Close")
                         span(aria-hidden="true") &times;
@@ -54,89 +61,66 @@ block main
                         .form-group
                             label(for="categoryName") Tên danh mục
                             input.form-control#categoryName(type="text", name="name", placeholder="Nhập tên danh mục", required)
-
-                        button.btn.btn-secondary(type="button", data-dismiss="modal") Đóng
-                        button.btn.btn-primary(type="submit") Lưu danh mục
+                        .text-right
+                            button.btn.btn-secondary(type="button", data-dismiss="modal") 
+                                i.fas.fa-times.mr-1
+                                | Đóng
+                            button.btn.btn-success(type="submit") 
+                                i.fas.fa-save.mr-1
+                                | Lưu danh mục
 
     // Modal sửa danh mục
     .modal.fade#editCategoryModal(tabindex="-1", role="dialog", aria-labelledby="editCategoryModalLabel", aria-hidden="true")
-        .modal-dialog(role="document")
+        .modal-dialog.modal-dialog-centered(role="document")
             .modal-content
-                .modal-header
+                .modal-header.bg-warning.text-white
                     h5.modal-title#editCategoryModalLabel Sửa danh mục
                     button.close(type="button", data-dismiss="modal", aria-label="Close")
                         span(aria-hidden="true") &times;
                 .modal-body
                     form#editCategoryForm(onsubmit="edit(event)", data-id="")
                         .form-group
-                            label(for="categoryName") Nhập tên danh mục thay đổi
-                            input.form-control#categoryName(type="text", name="name", placeholder="Nhập tên danh mục", required)
-
-                        button.btn.btn-secondary(type="button", data-dismiss="modal") Đóng
-                        button.btn.btn-primary(type="submit") Lưu chỉnh sửa
+                            label(for="categoryNewName") Nhập tên danh mục thay đổi
+                            input.form-control#categoryNewName(type="text", name="name", placeholder="Nhập tên danh mục", required)
+                        .text-right
+                            button.btn.btn-secondary(type="button", data-dismiss="modal") 
+                                i.fas.fa-times.mr-1
+                                | Đóng
+                            button.btn.btn-warning(type="submit") 
+                                i.fas.fa-save.mr-1
+                                | Lưu chỉnh sửa
 
     script.
-        function goback() {
-            window.history.back();
-        }
-
         function add(e) {
             e.preventDefault(); 
             const name = document.getElementById('categoryName').value; 
-
             fetch('/admin/category/add', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ name: name })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                    location.reload(); 
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Lỗi:', error);
-            });
+            }).then(response => response.json()).then(data => {
+                alert(data.message);
+                if (data.success) location.reload();
+            }).catch(error => console.error('Lỗi:', error));
         }
 
-        // Hàm xử lý xóa danh mục
         function deleteCategory(button) {
             const id = button.getAttribute('data-id');
             if (confirm("Bạn có chắc chắn muốn xóa danh mục này không?")) {
-                fetch(`/admin/category/delete`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                fetch('/admin/category/delete', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ id: id })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(data.message);
-                        location.reload();
-                    } else {
-                        alert(data.message || 'Không thể xóa danh mục.');
-                    }
-                })
-                .catch(err => {
-                    console.error('Lỗi khi xóa danh mục:', err);
-                    alert("Có lỗi xảy ra, vui lòng thử lại sau!");
-                });
+                }).then(res => res.json()).then(data => {
+                    alert(data.message);
+                    if (data.success) location.reload();
+                }).catch(err => console.error('Lỗi khi xóa danh mục:', err));
             }
         }
 
-        // Hàm xử lý chỉnh sửa danh mục
         function edit(e) {
             e.preventDefault();
-            const name = document.getElementById('categoryName').value;
-            console.log(name)   
+            const name = document.getElementById('categoryNewName').value; 
             const id = document.getElementById('editCategoryForm').getAttribute('data-id'); // Lấy ID từ form
 
             fetch('/admin/category/edit', {
@@ -160,15 +144,11 @@ block main
             });
         }
 
-        // Cập nhật modal sửa khi nhấp vào nút "Đổi tên"
-        document.querySelectorAll('.btn.btn-primary[data-toggle="modal"]').forEach(button => {
+        document.querySelectorAll('.btn-warning[data-toggle="modal"]').forEach(button => {
             button.addEventListener('click', function() {
-                const categoryId = this.getAttribute('data-id');
-                const categoryName = this.closest('tr').querySelector('td:nth-child(2)').textContent;
-                const editForm = document.getElementById('editCategoryForm');
-                const categoryNameInput = editForm.querySelector('#categoryName');
-                
-                categoryNameInput.value = categoryName; // Đặt giá trị tên danh mục vào ô input
-                editForm.setAttribute('data-id', categoryId); // Lưu id danh mục vào form để sau này sử dụng khi submit
+                const id = this.getAttribute('data-id');
+                const name = this.closest('tr').querySelector('td:nth-child(2)').textContent;
+                document.getElementById('editCategoryForm').setAttribute('data-id', id);
+                document.getElementById('categoryNewName').value = name;
             });
         });
