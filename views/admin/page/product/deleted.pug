@@ -1,36 +1,41 @@
 extends ../../layout/default.pug 
 include ../../mixins/pagination.pug
+
 block main 
-    h1 Danh sách sản phẩm
-    .card.mb-3
-        .card-header.bg-primary.text-white
-            h3.card-title Danh sách sản phẩm
+    .card.mb-4.shadow-sm.rounded
+        .card-header.bg-primary.text-white.py-3
+            h3.card-title.text-center.mb-0 Danh sách sản phẩm
         .card-body
-            .row
+            .row.align-items-center.mb-4
                 .col-md-6
-                    form.form-inline.my-2.my-lg-0(method="POST",action="",form-search)
-                        input.form-control.mr-sm-2(type="search", placeholder="Tìm sản phẩm", aria-label="Search", name="search")
-                        button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Tìm
+                    form.form-inline(method="POST", action="", form-search)
+                        input.form-control.mr-2(type="search", placeholder="Tìm sản phẩm", aria-label="Search", name="search")
+                        button.btn.btn-outline-light(type="submit")
+                            i.fas.fa-search.mr-1
+                            | Tìm
                 .col-md-3.text-right
-                    btn.btn.btn-success(onclick="window.history.back()") Trở lại
-            p   
-            table.table.table-striped.table-hover
-                thead.thead-dark
-                    tr
-                        th STT
-                        th Hình ảnh
-                        th Tên sản phẩm
-                        th Giá
-                        th Lượt xem
-                        th Trạng thái
-                        th Thao tác
+                    button.btn.btn-success.shadow-sm(onclick="window.history.back()")
+                        i.fas.fa-backward.mr-1
+                        | Trở lại
+                
+
+            table.table.table-hover.table-bordered.rounded.shadow-sm
+                thead.thead-dark 
+                    tr.text-center
+                        th(style="width: 5%;") STT
+                        th(style="width: 10%;") Hình ảnh
+                        th(style="width: 30%;") Tên sản phẩm
+                        th(style="width: 15%;") Giá
+                        th(style="width: 10%;") Lượt xem
+                        th(style="width: 10%;") Trạng thái
+                        th(style="width: 20%;") Thao tác
                 tbody
                     each item, index in products
-                        tr
+                        tr.text-center
                             td= index + 1
-                            td
-                                img(src= item.image, alt=item.name, style="max-width: 100px; max-height: 100px;")
-                            td= item.name
+                            td 
+                                img.img-thumbnail(src=item.image, alt=item.name, style="max-width: 80px; max-height: 80px;")
+                            td.text-left= item.name
                             td #{item.price} VNĐ
                             td #{item.watched}
                             if item.status === "active"
@@ -38,8 +43,11 @@ block main
                             else
                                 td.text-danger Ngừng hoạt động
                             td 
-                                a.btn.btn-primary(href=`/${prefixAdmin}/product/edit/${item.isbn}`, style="margin: 8px") Thay đổi trạng thái
+                                a.btn.btn-info.btn-sm.mr-1(href=`/${prefixAdmin}/product/edit/${item.isbn}`, style="margin: 8px") 
+                                    i.fas.fa-info-circle.mr-1
+                                    | Thay đổi trạng thái
+                                
+
         +pagination(currentPage, totalPage)
-   
-    script(src="/admin/js/product.js") 
-                            
+
+    script(src="/admin/js/product.js")

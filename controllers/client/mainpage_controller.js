@@ -2,6 +2,7 @@
 const search = require('../../helpers/search');
 const pageHelper = require('../../helpers/pagination');
 const db = require('../../config/databaseMySQL');
+const {addRecentActivity} = require('../admin/dashboard_controller')
 module.exports.index = async (req,res) => {
     res.render('client/layout/default')
 }
@@ -99,7 +100,7 @@ module.exports.detail = async (req, res) => {
     });
 
     const comments = Array.from(commentsMap.values());
-    console.log(comments);
+ 
     res.render('client/page/product/index', {
         product: product[0],
         comments: comments
@@ -111,6 +112,7 @@ module.exports.commendSend = async (req,res)=>{
     const userID = req.user.userID;
     try{
         await db.execute("insert into penddingcomment (productID,userID,content) values (?,?,?)",[id,userID,content])
+        await addRecentActivity('comment', `Bình luận mới: "${content}"`);
         res.status(200).json({success: true,message:"ok"})
     }
     catch(err){

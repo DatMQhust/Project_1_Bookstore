@@ -113,6 +113,31 @@ module.exports.editPost = async (req,res)=>{
         req.body.image = `/uploads/${req.file.filename}`
         await db.execute('update product set image = ? where isbn = ?',[req.body.image,isbn])
     }
+    const [productID] = await db.execute('select productID from product where isbn = ?',[isbn])
+    const prID = productID[0].productID;
+    const authors = req.body.author.split(',');
+    for (const authorName of authors) {
+        const trimmedName = authorName;
+        if (trimmedName) {
+          const [existingAuthor] = await db.execute("SELECT authorID FROM author WHERE name = ?", [trimmedName]);
+          let authorID;
+  
+          if (existingAuthor.length === 0) {
+            const [newAuthor] = await db.execute("INSERT INTO author (name, numberBook) VALUES (?, ?)", [trimmedName, 1]);
+            authorID = newAuthor.insertId;
+          } else {
+            authorID = existingAuthor[0].authorID;
+          }
+          const [linkCheck] = await db.execute(
+            "SELECT * FROM productauthor WHERE productID = ? AND authorID = ?",
+            [prID, authorID]
+          );
+  
+          if (linkCheck.length === 0) {
+            await db.execute("INSERT INTO productauthor (productID, authorID) VALUES (?, ?)", [prID, authorID]);
+          }
+        }
+    }
     await db.execute(`update product set name = ?,description = ?,categoryID = ?,publisher = ?,publish_year = ?,language = ?,price = ?,page = ?,status = ? where isbn = ?`,
                     [req.body.name,req.body.description,req.body.category,req.body.publisher,req.body.publish_year,req.body.language,req.body.price,req.body.page,req.body.status,isbn])
     req.flash('success_msg','Sửa sản phẩm thành công');

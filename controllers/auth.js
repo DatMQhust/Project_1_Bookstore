@@ -2,7 +2,7 @@ const db = require("../config/databaseMySQL");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
-
+const {addRecentActivity} = require("../controllers/admin/dashboard_controller");
 module.exports.register = async (req,res) =>{
     const {username, password, fullname, email,phone} = req.body;
     if (!username || !password || !fullname || !email || !phone) {
@@ -31,6 +31,7 @@ module.exports.register = async (req,res) =>{
         const userID = username+Date.now();
         const [result] = await db.query("INSERT INTO user (userID,username, password, fullname, email, phone) VALUES (?,?, ?, ?, ?, ?)", [userID,username, hashedPassword, fullname, email, phone]);
         const [role] = await db.query("INSERT INTO role (userID,roleID) VALUES (?,?)",[userID,"user"]);
+        await addRecentActivity('register', `Người dùng mới đăng ký: ${username}`);
     if (result.affectedRows === 1 && role.affectedRows === 1) {
             return  res.status(201).redirect('/login');
         }

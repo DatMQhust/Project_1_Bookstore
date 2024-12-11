@@ -1,3 +1,85 @@
 extends ../../layout/default.pug
-block main 
-    h1 Trang chu
+
+block main
+  .container-fluid
+    // Header
+    .row.mb-4
+      .col-md-12
+        .dashboard-header.bg-primary.text-white.text-center.p-3.rounded
+          h2.mb-0 Tổng quan hệ thống
+
+    // Overview cards
+    .row.g-4
+      // Total books
+      .col-md-3
+        .card.shadow-sm
+          .card-body
+            h5.card-title.text-primary Sách
+            h4.card-text.display-5.text-dark 1,000 
+                i.fas.fa-book.text-primary.float-end.display-6
+
+      // Total users
+      .col-md-3
+        .card.shadow-sm
+          .card-body
+            h5.card-title.text-success Người dùng
+            h4.card-text.display-5.text-dark 500 
+                i.fas.fa-users.text-success.float-end.display-6
+
+      // Total comments
+      .col-md-3
+        .card.shadow-sm
+          .card-body
+            h5.card-title.text-warning Bình luận
+            h4.card-text.display-5.text-dark 
+                | 100 
+                i.fas.fa-comments.text-warning.float-end.display-6
+
+      .col-md-3
+        .card.shadow-sm
+            .card-body
+                h5.card-title.text-warning Danh mục
+                h4.card-text.display-5.text-dark 
+                    | 8 
+                    i.fas.fa-comments.text-warning.float-end.display-6
+
+      
+
+    
+
+    // Alerts section
+    .row.mt-4.g-4
+      // Out of stock books
+      .col-md-6
+        .card.shadow-sm
+          .card-body
+            h5.card-title.text-warning Sách đã bị xoá
+            p.card-text.display-6.text-dark 3
+            a.btn.btn-warning.mt-2(href="#") Quản lý 
+                i.fas.fa-box-open.float-end.display-6
+
+      // Pending comments
+      .col-md-6
+        .card.shadow-sm
+          .card-body
+            h5.card-title.text-danger Bình luận chưa duyệt
+            p.card-text.display-6.text-dark 12
+            a.btn.btn-danger.mt-2(href="#") Duyệt bình luận 
+                i.fas.fa-exclamation-triangle.float-end.display-6
+
+    // Recent activities section
+    .row.mt-4
+      .col-md-12
+        .card.shadow-sm
+          .card-body
+            h5.card-title.text-info Hoạt động gần đây
+            ul.list-group.list-group-flush
+                each activity in activities
+                    li.list-group-item.d-flex.align-items-center
+                    i.fas(
+                        class=activity.activity_type === 'register' ? 'fa-user-circle text-info' 
+                        : activity.activity_type === 'comment' ? 'fa-comment-alt text-success' 
+                        : 'fa-shopping-cart text-warning'
+                    ).me-3
+                    span= activity.description
+                    span.text-muted.float-end= activity.created_at

@@ -1,0 +1,44 @@
+extends ../../layout/default.pug
+include ../../mixins/pagination.pug
+
+block main 
+    .card.mb-4.shadow-sm.rounded
+        .card-header.bg-primary.text-white.py-3
+            h3.card-title.text-center.mb-0 Danh sách tác giả
+        .card-body
+            .row.align-items-center.mb-4
+                .col-md-6
+                    form.form-inline(method="POST", action="", form-search)
+                        input.form-control.mr-2(type="search", placeholder="Tìm tác giả", aria-label="Search", name="search")
+                        button.btn.btn-outline-light(type="submit")
+                            i.fas.fa-search.mr-1
+                            | Tìm
+
+            table.table.table-hover.table-bordered.rounded.shadow-sm
+                thead.thead-dark 
+                    tr.text-center
+                        th STT
+                        th Tên tác giả
+                        th Số lượng sách
+                        th Thao tác
+                tbody
+                    if (!authors || authors.length === 0)
+                        tr
+                            td.text-center(colspan="6") Không tìm thấy người dùng nào
+                    else
+                        each item, index in authors
+                            tr.text-center
+                                td= index + 1
+                                td.text-left= item.name
+                                td.text-left= item.numberBook
+                            
+                                td 
+                                    a.btn.btn-info.btn-sm.mr-1(href=`/admin/author/${item.name}/${item.numberBook}`) 
+                                        i.fas.fa-book.mr-1 
+                                        | Xem sách
+                                    
+
+        +pagination(currentPage, totalPage)
+
+    script.
+        
