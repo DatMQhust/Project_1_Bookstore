@@ -1,13 +1,11 @@
-header.header 
-    .container-fluid
-        .row.align-items-center
-            .col-3
-                .inner-logo 
-                    a(href="/admin/dashboard") ADMIN 
-            .col-9
-                .d-flex.justify-content-end.align-items-center
-                    span.text-white #{user.fullname}   
-                        button.btn.btn-danger(onclick="handleLogout()") Logout
+header.header
+    button.menu-button
+      span.icon ☰ 
+      |  #{pageTitle}
+    .user-info
+        .user-name #{user.fullname}
+        .user-avatar
+          img(src="/uploads/avatar.jpg" alt="User Avatar")
 script.
     const handleLogout = () => {
         // Xóa cookie phiên làm việc
@@ -15,3 +13,17 @@ script.
         // Chuyển hướng về trang chính
         window.location.href = "/";
     }
+style.
+    .menu-button {
+    background-color:rgb(147, 164, 183);
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+    margin-right: 0px; /* Khoảng cách hợp lý giữa nút và thanh tìm kiếm */
+    margin-left : 0px;
+  }

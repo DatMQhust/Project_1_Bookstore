@@ -22,6 +22,7 @@ module.exports.index = async (req,res)=>{
     
     const numberBooks = rows.map(row => row['Số lượng sách']);
     res.render('admin/page/category/index',{
+        pageTitle:"Danh mục",
         user:req.user,
         categories:categories,
         totalPage: totalPage,

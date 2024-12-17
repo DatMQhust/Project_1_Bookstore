@@ -3,10 +3,7 @@ extends ../../layout/default.pug
 block main
   .container-fluid
     // Header
-    .row.mb-4
-      .col-md-12
-        .dashboard-header.bg-primary.text-white.text-center.p-3.rounded
-          h2.mb-0 Tổng quan hệ thống
+    
 
     // Overview cards
     .row.g-4
@@ -15,7 +12,7 @@ block main
         .card.shadow-sm
           .card-body
             h5.card-title.text-primary Sách
-            h4.card-text.display-5.text-dark 1,000 
+            h4.card-text.display-5.text-dark #{product} 
                 i.fas.fa-book.text-primary.float-end.display-6
 
       // Total users
@@ -23,7 +20,7 @@ block main
         .card.shadow-sm
           .card-body
             h5.card-title.text-success Người dùng
-            h4.card-text.display-5.text-dark 500 
+            h4.card-text.display-5.text-dark #{userc} 
                 i.fas.fa-users.text-success.float-end.display-6
 
       // Total comments
@@ -32,7 +29,7 @@ block main
           .card-body
             h5.card-title.text-warning Bình luận
             h4.card-text.display-5.text-dark 
-                | 100 
+                | #{comment} 
                 i.fas.fa-comments.text-warning.float-end.display-6
 
       .col-md-3
@@ -40,7 +37,7 @@ block main
             .card-body
                 h5.card-title.text-warning Danh mục
                 h4.card-text.display-5.text-dark 
-                    | 8 
+                    | #{category} 
                     i.fas.fa-comments.text-warning.float-end.display-6
 
       
@@ -54,8 +51,8 @@ block main
         .card.shadow-sm
           .card-body
             h5.card-title.text-warning Sách đã bị xoá
-            p.card-text.display-6.text-dark 3
-            a.btn.btn-warning.mt-2(href="#") Quản lý 
+            p.card-text.display-6.text-dark #{deleted} 
+            a.btn.btn-warning.mt-2(href="/admin/product/deleted") Quản lý 
                 i.fas.fa-box-open.float-end.display-6
 
       // Pending comments
@@ -63,8 +60,8 @@ block main
         .card.shadow-sm
           .card-body
             h5.card-title.text-danger Bình luận chưa duyệt
-            p.card-text.display-6.text-dark 12
-            a.btn.btn-danger.mt-2(href="#") Duyệt bình luận 
+            p.card-text.display-6.text-dark #{penddingcomment} 
+            a.btn.btn-danger.mt-2(href="/admin/comment") Duyệt bình luận 
                 i.fas.fa-exclamation-triangle.float-end.display-6
 
     // Recent activities section

@@ -1,27 +1,32 @@
-.sider.bg-dark.text-white
-    .inner-menu
-        ul.nav.flex-column
-            li.nav-item
-                a.nav-link.text-white(href="/admin/dashboard")
-                    i.fas.fa-house-user.me-2 
-                    |   Trang chính
-            li.nav-item
-                a.nav-link.text-white(href="/admin/product")
-                    i.fas.fa-book.me-2 
-                    |   Tài liệu 
-            li.nav-item
-                a.nav-link.text-white(href="/admin/category")
-                    i.fas.fa-list.me-2 
-                    |   Danh mục
-            li.nav-item
-                a.nav-link.text-white(href="/admin/author")
-                    i.fas.fa-user-edit.me-2 
-                    |   Tác giả
-            li.nav-item
-                a.nav-link.text-white(href="/admin/user")
-                    i.fas.fa-users.me-2 
-                    |   Người dùng
-            li.nav-item
-                a.nav-link.text-white(href="/admin/comment")
-                    i.fas.fa-comments.me-2 
-                    |   Bình luận
+.sider
+    nav.sidebar.d-flex.flex-column
+        h4 Admin panel 
+        a(href='/admin/dashboard')
+            i(class='fas fa-tachometer-alt')
+            | Dashboard
+        a(href='/admin/category')
+            i(class='fas fa-th-list')
+            | Danh mục
+        a(href='/admin/product')
+            i(class='fas fa-box-open')
+            | Sản phẩm
+        a(href='/admin/user')
+            i(class='fas fa-user')
+            | Tài khoản
+        a(href='/admin/author')
+            i(class='fas fa-blog')
+            | Tác giả
+        a(href='/admin/comment')
+            i(class='fas fa-envelope')
+            | Bình luận
+        button(onclick='handleLogout()')  
+            i(class='fas fa-sign-out-alt')
+            |  Đăng xuất
+        
+script.
+    const handleLogout = () => {
+        // Xóa cookie phiên làm việc
+        document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        // Chuyển hướng về trang chính
+        window.location.href = "/";
+    }

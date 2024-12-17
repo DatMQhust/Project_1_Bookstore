@@ -15,6 +15,7 @@ module.exports.index = async (req,res)=>{
     let status = "active"
     const [product] = await db.execute(`select * from product as p where name LIKE ? and status = ? LIMIT ? OFFSET ? `,[`%${keyword}%`,`${status}`,`${limit}`,`${offset}`])
     res.render('admin/page/product/index',{
+        pageTitle:"Sản phẩm",
         user:req.user,
         products:product,
         totalPage: totalPage,

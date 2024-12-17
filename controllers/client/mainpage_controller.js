@@ -4,6 +4,7 @@ const pageHelper = require('../../helpers/pagination');
 const db = require('../../config/databaseMySQL');
 const {addRecentActivity} = require('../admin/dashboard_controller')
 module.exports.index = async (req,res) => {
+    
     res.render('client/layout/default')
 }
 module.exports.list = async (req,res) =>{

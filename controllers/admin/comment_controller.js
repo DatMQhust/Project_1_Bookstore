@@ -27,6 +27,7 @@ module.exports.index = async (req, res) => {
       `,[`%${keyword}%`,`${limit}`,`${offset}`]);
     
     res.render('admin/page/comment/index',{
+      pageTitle:"Bình luận",
         user:req.user,
         comments:comments,
         totalPage: totalPage,

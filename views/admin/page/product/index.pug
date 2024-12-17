@@ -3,8 +3,7 @@ include ../../mixins/pagination.pug
 
 block main 
     .card.mb-4.shadow-sm.rounded
-        .card-header.bg-primary.text-white.py-3
-            h3.card-title.text-center.mb-0 Danh sách sản phẩm
+        
         .card-body
             .row.align-items-center.mb-4
                 .col-md-6
@@ -18,8 +17,8 @@ block main
                         i.fas.fa-trash.mr-1
                         | Sản phẩm đã xoá
                 .col-md-3.text-left
-                    a.btn.btn-success.shadow-sm(href=`/${prefixAdmin}/product/create`)
-                        i.fas.fa-plus.mr-1
+                    a.btn.btn-light.shadow-sm(href=`/${prefixAdmin}/product/create`)
+                        i.fas.fa-plus-circle.mr-1
                         | Thêm sản phẩm
 
             table.table.table-hover.table-bordered.rounded.shadow-sm
@@ -27,11 +26,11 @@ block main
                     tr.text-center
                         th(style="width: 5%;") STT
                         th(style="width: 10%;") Hình ảnh
-                        th(style="width: 30%;") Tên sản phẩm
-                        th(style="width: 15%;") Giá
+                        th(style="width: 27%;") Tên sản phẩm
+                        th(style="width: 13%;") Giá
                         th(style="width: 10%;") Lượt xem
                         th(style="width: 10%;") Trạng thái
-                        th(style="width: 20%;") Thao tác
+                        th(style="width: 25%;") Thao tác
                 tbody
                     each item, index in products
                         tr.text-center

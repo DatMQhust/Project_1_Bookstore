@@ -1,319 +1,153 @@
 doctype html
-html(lang="vi")
+html(lang='en')
   head
-    meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title Quản lý nội dung bằng card
-    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css", rel="stylesheet")
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Dashboard Page
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css')
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css")
     style.
-      .book-page {
-        background-color: #f8f9fa;
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f9;
       }
-      .book-page .container {
-        display: flex;
-        gap: 20px;
-        flex-wrap: nowrap;
-        height: 100vh;
-      }
-      .book-page .book-image {
-        flex: 0 0 auto;
-        max-width: 300px;
-        position: sticky;
-        top: 0;
-      }
-      .book-page .book-details {
-        flex: 1;
-        overflow-y: auto;
-      }
-      .book-page .card {
-        margin-bottom: 20px;
-        border-radius: 10px;
-      }
-      .book-page .card-title {
-        font-size: 1.25rem;
-        font-weight: bold;
-        color: #333;
-      }
-      .book-page .price {
-        font-size: 1.25rem;
-        color: #d9534f;
-      }
-      .book-page .btn-buy {
-        background-color: #d9534f;
+      .sidebar {
+        width: 250px;
+        background-color: #00204A;
         color: white;
+        height: 100vh;
+        padding: 1rem;
+        position: fixed;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
       }
-      .comment-section {
-        max-width: 800px;
-        margin: 0 auto;
-      }
-
-      h2 {
-        font-size: 1.5rem;
-        margin-bottom: 10px;
-      }
-
-      hr {
-        border: none;
-        border-top: 2px solid #4caf50;
-        width: 120px;
-        margin: 10px 0;
-      }
-
-      .comment-card {
-        margin-bottom: 20px;
-        padding: 20px;
-        border-bottom: 1px solid #ddd;
-        background-color: #fff;
-      }
-
-      .comment-header {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: 10px;
-      }
-
-      .avatar {
-        width: 40px;
-        height: 40px;
-        background-color: #007bff;
-        color: #fff;
+      .sidebar h4 {
+        margin-bottom: 2rem;
         font-weight: bold;
-        font-size: 1.2rem;
-        text-align: center;
-        line-height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-      }
-
-      .comment-info {
-        flex: 1;
-      }
-
-      .comment-author {
-        font-size: 1rem;
-        font-weight: bold;
-      }
-
-      .comment-time {
-        font-size: 0.875rem;
-        color: #888;
-        margin-top: 4px;
-      }
-
-      .comment-content {
-        font-size: 1rem;
-        margin-top: 4px;
-        color: #333;
-      }
-
-      .reply-card {
-        margin-top: 12px;
-        padding: 10px 16px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        border-left: 3px solid #4caf50;
-      }
-
-      .reply-header {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: 8px;
-      }
-
-      .reply-avatar {
-        width: 36px;
-        height: 36px;
-        background-color: #4caf50;
-        color: #fff;
-        font-weight: bold;
-        font-size: 1.2rem;
-        text-align: center;
-        line-height: 36px;
-        border-radius: 50%;
-        margin-right: 10px;
-      }
-
-      .reply-info {
-        flex: 1;
-      }
-
-      .reply-author {
-        font-size: 1rem;
-        font-weight: bold;
-      }
-
-      .admin-tag {
-        font-size: 0.75rem;
-        background-color: #ffc107;
-        color: #fff;
-        padding: 2px 6px;
-        border-radius: 4px;
-        margin-left: 10px;
-      }
-
-      .reply-time {
-        font-size: 0.875rem;
-        color: #888;
-        margin-top: 4px;
-      }
-
-      .reply-content {
-        font-size: 1rem;
-        margin-top: 4px;
-        color: #555;
-      }
-      .comment-box-container {
-        background-color: #fff;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 1000px;
-      }
-
-      .comment-box-container h3 {
-        font-size: 1.2rem;
-        margin-bottom: 15px;
-        color: #333;
         text-align: center;
       }
-
-      textarea {
-        width: 100%;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 12px;
-        font-size: 1rem;
-        color: #555;
-        resize: none;
-        box-sizing: border-box;
-        transition: all 0.3s ease;
-      }
-
-      textarea:focus {
-        outline: none;
-        border-color: #4caf50;
-        box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
-      }
-
-      .action-row {
+      .sidebar a {
+        color: white;
+        text-decoration: none;
+        padding: 0.75rem 1rem;
         display: flex;
-        justify-content: end;
         align-items: center;
-        margin-top: 10px;
-      }
-
-      .char-count {
-        font-size: 0.9rem;
-        color: #999;
-      }
-
-      button {
-        background-color: #4caf50;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        font-size: 1rem;
-        border-radius: 8px;
-        cursor: pointer;
+        border-radius: 5px;
         transition: background-color 0.3s ease;
-       
+        margin-bottom: 0.5rem;
       }
-
-      button:hover {
-        background-color: #45a049;
+      .sidebar a i {
+        margin-right: 1rem;
+        font-size: 1.2rem;
+      }
+      .sidebar a:hover {
+        background-color: #0056b3;
+      }
+      .header {
+        background-color: #fff;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-left: 250px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header input {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 0.5rem;
+      }
+      .content {
+        padding: 2rem;
+        margin-left: 250px;
+      }
+      .stats-box {
+        background: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        margin: 1rem 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+      .stats-box:hover {
+        transform: translateY(-5px);
+      }
+      .chart-container {
+        background: #fff;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      ul li {
+        list-style: none;
+        margin: 0.5rem 0;
+      }
+      .text-purple {
+        color: #6f42c1;
       }
   body
-    include ../client/partial/header.pug
-    include ../client/partial/search.pug
-    .book-page
-      .container
-        // Card hình ảnh sách
-        .book-image
-          .card
-            img.card-img-top(src="uploads/1731747882569.jpg" alt="Bìa sách")
-            .card-body.text-center
-              h5.card-title #{item.name}
-        // Phần nội dung chi tiết
-        .book-details
-          // Card chi tiết sách
-          .card
-            .card-body
-              h5.card-title.text-center(style="color: #4CAF50; font-weight: bold; font-size: 1.25rem;") Chi tiết sách
-              .book-info
-                .info-item
-                  span.label Tác giả: 
-                  span.value #{item.author}
-                .info-item
-                  span.label Nhà xuất bản: 
-                  span.value #{item.publisher}
-                .info-item
-                  span.label Năm xuất bản: 
-                  span.value #{item.publish_year}
-                .info-item
-                  span.label Danh mục: 
-                  span.value #{item.categories}
-                .info-item
-                  span.label Mã số ISBN: 
-                  span.value #{item.isbn}
-                .info-item
-                  span.label Ngôn ngữ: 
-                  span.value #{item.language}
-                .info-item
-                  span.label Lượt xem: 
-                  span.value #{item.watched}
-                .info-item
-                  span.label Số trang: 
-                  span.value #{item.page}
-              .price-info
-                p(style="font-size: 1.2rem; font-weight: bold; color: #333;") Giá bán tham khảo:
-                span.price(style="font-size: 1.5rem; color: #E91E63; font-weight: bold;") #{item.price} đ
+    //- Sidebar Section
+    nav.sidebar.d-flex.flex-column
+      h4 Sneakers
+      a(href='#')
+        i(class='fas fa-tachometer-alt')
+        | Dashboard
+      a(href='#')
+        i(class='fas fa-th-list')
+        | Danh mục
+      a(href='#')
+        i(class='fas fa-box-open')
+        | Sản phẩm
+      a(href='#')
+        i(class='fas fa-user')
+        | Tài khoản
+      a(href='#')
+        i(class='fas fa-blog')
+        | Blog
+      a(href='#')
+        i(class='fas fa-envelope')
+        | Tin nhắn
+      a(href='#')
+        i(class='fas fa-shopping-cart')
+        | Đơn hàng
+      a(href='#')
+        i(class='fas fa-sign-out-alt')
+        | Đăng xuất
 
-          
-
-          // Card ưu đãi
-          .card
-            .card-body
-              h5.card-title Mô tả
-              p #{item.description}  
-
-          .card 
-            .card-body
-              if (comments.length > 0)
-                .comment-section
-                  h2 Bình luận
-                  hr
-                  each comment in comments
-                    .comment-card
-                      .comment-header
-                        .avatar M
-                        .comment-info
-                          strong.comment-author #{comment.name}
-                          p.comment-time #{comment.time}
-                      .comment-content #{comment.content}
-                      each reply in comment.replies
-                        .reply-card
-                          .reply-header
-                            .reply-avatar N
-                            .reply-info
-                              strong.reply-author #{reply.name}
-                              span.admin-tag Quản trị viên
-                              span.reply-time #{reply.time}
-                          .reply-content #{reply.content}
-                  .comment-box-container
-                    h3 Viết bình luận
-                    textarea(placeholder="Nhập bình luận của bạn...") 
-                    .action-row
-                      button(type="button") Gửi
-              else
-                .alert.alert-info Chưa có bình luận nào
-                
-                .comment-box-container
-                  h3 Viết bình luận
-                  textarea(placeholder="Nhập bình luận của bạn...") 
-                  .action-row
-                    button(type="button") Gửi
-
-                
-
-                    
+    //- Main Content Wrapper
+    main.w-100
+      //- Header Section
+      header.header
+        h5 Dashboard
+        div.d-flex.align-items-center
+          input(type='text', placeholder='Search...')
+          button.btn.btn-primary.ms-2 &#128269;
+        div
+          | Trong Dat
+          i(class='fas fa-user-circle ms-2')
+      
+      //- Body Content
+      .content
+        .row.g-4
+          .col-md-3
+            .stats-box
+              h3.text-primary 4
+              p Người dùng
+          .col-md-3
+            .stats-box
+              h3.text-danger 20
+              p Sản phẩm
+          .col-md-3
+            .stats-box
+              h3.text-warning 5
+              p Bài viết
+          .col-md-3
+            .stats-box
+              h3.text-success 7
+              p Đơn hàng
+        
+        
+      script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js") 
+      script(src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js")

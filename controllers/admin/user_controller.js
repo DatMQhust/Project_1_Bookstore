@@ -14,6 +14,7 @@ module.exports.index = async (req,res)=>{
     }
     const [users] = await db.execute(`select user.*,roleID from user,role where user.userID = role.userID and fullname LIKE ? LIMIT ? OFFSET ? `,[`%${keyword}%`,`${limit}`,`${offset}`])
     res.render('admin/page/user/index',{
+        pageTitle:"Người dùng",
         user:req.user,
         users:users,
         totalPage: totalPage,

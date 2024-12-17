@@ -14,6 +14,7 @@ module.exports.index = async (req,res) =>{
     }
     const [authors] = await db.execute(`select * from author where name LIKE ? LIMIT ? OFFSET ? `,[`%${keyword}%`,`${limit}`,`${offset}`])
     res.render('admin/page/author/index',{
+        pageTitle:"Tác giả",
         user:req.user,
         authors:authors,
         totalPage: totalPage,
