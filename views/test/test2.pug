@@ -1,50 +1,140 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title Comment Section
-    
-    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css")
-    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css")
-    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css")  
-  body
-    .sider.bg-white.shadow
-      .logo.text-center.py-4
-          a(href="/admin/dashboard")
-              img(src="/uploads/avatar.jpg", alt="Logo")
-      .inner-menu
-          ul.nav.flex-column
-              li.nav-item.my-2
-                  a.nav-link.text-dark.active(href="/admin/dashboard")
-                      i.fas.fa-home.me-2.text-primary 
-                      span.text-primary Dashboard
-              li.nav-item.my-2
-                  a.nav-link.text-muted(href="/admin/product")
-                      i.fas.fa-shopping-cart.me-2 
-                      span NFT Marketplace
-              li.nav-item.my-2
-                  a.nav-link.text-muted(href="/admin/category")
-                      i.fas.fa-table.me-2 
-                      span Tables
-              li.nav-item.my-2
-                  a.nav-link.text-muted(href="/admin/author")
-                      i.fas.fa-th.me-2 
-                      span Kanban
-              li.nav-item.my-2
-                  a.nav-link.text-muted(href="/admin/user")
-                      i.fas.fa-user.me-2 
-                      span Profile
-              li.nav-item.my-2
-                  a.nav-link.text-primary.font-weight-bold(href="/auth/signin")
-                      i.fas.fa-lock.me-2 
-                      span Sign In
-              li.nav-item.my-2
-                  a.nav-link.text-primary.font-weight-bold(href="/auth/signup")
-                      i.fas.fa-user-plus.me-2 
-                      span Sign Up
-                    
-      script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js") 
-      script(src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js")
-      script(src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js") 
-      script(src="/admin/js/script.js")
+extends ../client/layout/default.pug
+
+block main
+  .container.px-3.py-3
+    // Sách Nổi Bật
+    section#featured-books.mb-4
+      .card.border-0.shadow-sm
+        .card-body.py-3
+          .d-flex.justify-content-between.align-items-center.mb-3
+            h4.text-primary.mb-0 Sách Nổi Bật
+            a.btn.btn-sm.btn-outline-primary(href="/list") Xem Thêm
+          
+          .row.position-relative
+            .col-12
+              .swiper.book-swiper
+                .swiper-wrapper
+                  each book in trendproduct
+                    .swiper-slide
+                      a.book-card-link(href=`/detail/${book.productID}`)
+                        .card.book-card.h-100.border-0.shadow-sm
+                          .book-image-container(style="height: 250px; display: flex; align-items: center; justify-content: center;")
+                            img.img-fluid(src=`${book.image}` alt=`${book.name}` style="max-height: 100%; max-width: 100%; object-fit: contain;")
+                          .card-body.p-2.text-center
+                            small.text-truncate.d-block.mb-1 #{book.name}
+                            p 
+                            p
+                
+                .swiper-button-prev.text-primary
+                .swiper-button-next.text-primary
+                .swiper-pagination
+
+    // Sách Mới Nhất
+    section#new-arrivals.mb-4
+      .card.border-0.shadow-sm
+        .card-body.py-3
+          .d-flex.justify-content-between.align-items-center.mb-3
+            h4.text-primary.mb-0 Sách Mới Nhất
+            a.btn.btn-sm.btn-outline-primary(href="/list") Xem Thêm
+          
+          .row.position-relative
+            .col-12
+              .swiper.new-swiper
+                .swiper-wrapper
+                  each book in newproduct
+                    .swiper-slide
+                      a.book-card-link(href=`/detail/${book.productID}`)
+                        .card.book-card.h-100.border-0.shadow-sm
+                          .book-image-container(style="height: 250px; display: flex; align-items: center; justify-content: center;")
+                            img.img-fluid(src=`${book.image}` alt=`${book.name}` style="max-height: 100%; max-width: 100%; object-fit: contain;")
+                          .card-body.p-2.text-center
+                            small.text-truncate.d-block.mb-1 #{book.name}
+                            p
+                            p
+                
+                .swiper-button-prev.text-primary
+                .swiper-button-next.text-primary
+                .swiper-pagination
+
+    // Danh Mục Sách
+    section#book-categories.mb-4
+      .card.border-0.shadow-sm
+        .card-body.py-3
+          h4.text-primary.mb-3.text-center Danh Mục Sách
+          .row.row-cols-3.g-3
+            each cat,index in category
+              .col
+                a.text-decoration-none(href=`/category/${cat.id}`)
+                  .card.category-card.h-100.border-0.shadow-sm
+                    .card-body.text-center.p-3
+                      .mb-2
+                        i.fas.fa-book.fa-2x.text-primary
+                      h6.card-title.text-primary.mb-1 #{cat.name}
+                      small.text-muted #{numberBook[index]} Sách
+
+  style.
+    /* Loại bỏ gạch chân khi hover */
+    .book-card-link,
+    .category-card {
+      text-decoration: none !important;
+    }
+
+    .book-card-link:hover {
+      text-decoration: none !important;
+    }
+
+    .book-card {
+      transition: transform 0.2s ease;
+    }
+
+    .book-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1) !important;
+    }
+
+    .category-card {
+      transition: all 0.2s ease;
+    }
+
+    .category-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+    }
+
+    .swiper-button-prev, 
+    .swiper-button-next {
+      color: #007bff !important;
+      background-color: rgba(0,123,255,0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .swiper-button-prev::after, 
+    .swiper-button-next::after {
+      font-size: 20px;
+    }
+
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+      new Swiper('.book-swiper, .new-swiper', {
+        slidesPerView: 5,
+        spaceBetween: 10,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          type: 'bullets',
+        },
+        breakpoints: {
+          320: { slidesPerView: 2, spaceBetween: 5 },
+          480: { slidesPerView: 3, spaceBetween: 10 },
+          640: { slidesPerView: 4, spaceBetween: 15 },
+          1024: { slidesPerView: 5, spaceBetween: 20 }
+        }
+      });
+    });

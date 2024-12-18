@@ -7,6 +7,7 @@ module.exports.index = async (req,res) => {
     
     res.render('client/layout/default')
 }
+// [GET] /list/all
 module.exports.list = async (req,res) =>{
     const keyword = req.query.search ? req.query.search.trim() : "";
     let status = "active"

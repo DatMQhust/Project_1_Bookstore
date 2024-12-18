@@ -2,107 +2,297 @@
 div.search-bar-container
   .search-container
     button.menu-button
-      span.icon ☰
-      |  Danh Mục Sách
+      i.fas.fa-list-ul.me-2
+      | Danh Mục Sách
     .search-bar
-      input.search-input(type="text" placeholder="Tìm sách, tác giả, sản phẩm mong muốn...")
-      button.search-button Tìm kiếm
+      .search-input-wrapper
+        i.fas.fa-search.search-icon
+        input.search-input(type="text" placeholder="Tìm sách, tác giả, sản phẩm mong muốn...")
+      button.search-button 
+        i.fas.fa-arrow-right.me-2
+        | Tìm kiếm
+    button.filter-button(data-bs-toggle="modal" data-bs-target="#filterModal")
+      i.fas.fa-filter.me-2
+      | Bộ lọc
     button.my-books-button(onclick="location.href='/saved'")
-      span.icon 📚
-      |  Sách của tôi
+      i.fas.fa-book.me-2
+      | Sách của tôi
+
+  // Filter Modal
+  #filterModal.modal.fade(tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true")
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-header
+          h5#filterModalLabel.modal-title Bộ Lọc Tìm Kiếm
+          button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+        .modal-body
+          .row
+            .col-md-6.mb-3
+              h6 Thể Loại
+              .form-check
+                input#fictionCategory.form-check-input(type="checkbox" value="fiction")
+                label.form-check-label(for="fictionCategory") Tiểu Thuyết
+              .form-check
+                input#scienceCategory.form-check-input(type="checkbox" value="science")
+                label.form-check-label(for="scienceCategory") Khoa Học
+              .form-check
+                input#historyCategory.form-check-input(type="checkbox" value="history")
+                label.form-check-label(for="historyCategory") Lịch Sử
+            
+            .col-md-6.mb-3
+              h6 Khoảng Giá
+              .input-group
+                input.form-control(type="number" placeholder="Từ" id="priceFrom")
+                span.input-group-text -
+                input.form-control(type="number" placeholder="Đến" id="priceTo")
+            
+            .col-md-6.mb-3
+              h6 Nhà Xuất Bản
+              select.form-select(multiple aria-label="Nhà xuất bản")
+                option(value="1") Kim Đồng
+                option(value="2") Trẻ
+                option(value="3") Văn Học
+            
+            .col-md-6.mb-3
+              h6 Đánh Giá
+              .form-check
+                input#rating4.form-check-input(type="radio" name="ratingRadio" value="4")
+                label.form-check-label(for="rating4") 4 Sao trở lên
+              .form-check
+                input#rating3.form-check-input(type="radio" name="ratingRadio" value="3")
+                label.form-check-label(for="rating3") 3 Sao trở lên
+
+        .modal-footer
+          button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Đóng
+          button.btn.btn-primary(type="button" id="applyFilters") Áp Dụng
 
 style.
-  /* Namespace CSS */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css');
+
+  :root {
+    --primary-color: #3b82f6;
+    --secondary-color: #10b981;
+    --background-color: #f0f9ff;
+    --text-color: #1f2937;
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+
   .search-bar-container {
-    padding: 15px;
-    background-color: #f8f9fa; /* Màu nền nhẹ */
+    padding: 20px;
+    background-color: var(--background-color);
   }
 
   .search-container {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Khoảng cách đều giữa các phần tử */
-    padding: 10px 20px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background-color: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border-radius: var(--border-radius);
+    max-width: 1200px;
+    margin: 0 auto;
+    transition: var(--transition);
   }
 
-  .search-container .menu-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 16px;
+  .search-container .menu-button, 
+  .search-container .filter-button, 
+  .search-container .my-books-button {
+    padding: 12px 20px;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-    margin-right: 0px; /* Khoảng cách hợp lý giữa nút và thanh tìm kiếm */
-    margin-left : 100px;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    font-weight: 500;
+    margin-right: 15px;
+  }
+
+  .search-container .menu-button {
+    background-color: var(--primary-color);
+    color: white;
+  }
+
+  .search-container .filter-button {
+    background-color: white;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
   }
 
   .search-container .menu-button:hover {
-    background-color: #0056b3; /* Màu khi hover */
+    background-color: #2563eb;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
 
-  .search-container .menu-button .icon {
-    margin-right: 8px; /* Khoảng cách giữa biểu tượng và chữ */
+  .search-container .filter-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
 
   .search-container .search-bar {
     flex-grow: 1;
     display: flex;
     align-items: center;
-    max-width: 600px; /* Giới hạn chiều rộng tối đa */
-    margin: 0 0px; /* Khoảng cách hai bên */
+    max-width: 700px;
+    margin: 0 15px;
+  }
+
+  .search-container .search-input-wrapper {
+    flex-grow: 1;
+    position: relative;
+    margin-right: -1px;
+  }
+
+  .search-container .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    transition: var(--transition);
   }
 
   .search-container .search-input {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px 0 0 6px;
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: 1px solid #e5e7eb;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
     font-size: 16px;
+    transition: var(--transition);
   }
 
   .search-container .search-input:focus {
     outline: none;
-    border-color: #007bff; /* Đổi màu viền khi focus */
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
+
+  .search-container .search-input:focus + .search-icon {
+    color: var(--primary-color);
   }
 
   .search-container .search-button {
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: white;
-    padding: 10px 16px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 0 6px 6px 0;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    transition: var(--transition);
   }
 
   .search-container .search-button:hover {
-    background-color: #0056b3;
+    background-color: #2563eb;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
 
   .search-container .my-books-button {
     background-color: white;
-    color: #007bff;
-    padding: 10px 16px;
-    border: 1px solid #007bff;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    margin-right:100px;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
   }
 
   .search-container .my-books-button:hover {
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
 
-  .search-container .my-books-button .icon {
-    margin-right: 8px;
+  // Modal Styling
+  .modal-content {
+    border-radius: var(--border-radius);
   }
+
+  .modal-header {
+    border-bottom: none;
+    padding: 1.5rem;
+  }
+
+  .modal-footer {
+    border-top: none;
+    padding: 1.5rem;
+  }
+
+  .form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  @media (max-width: 768px) {
+    .search-container {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 15px;
+    }
+
+    .search-container > * {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    .search-container .menu-button, 
+    .search-container .filter-button,
+    .search-container .my-books-button {
+      justify-content: center;
+    }
+
+    .search-container .search-bar {
+      margin: 0;
+    }
+
+    .search-container .search-input-wrapper,
+    .search-container .search-button {
+      width: 100%;
+    }
+
+    .search-container .search-input {
+      border-radius: var(--border-radius);
+    }
+
+    .search-container .search-button {
+      border-radius: var(--border-radius);
+      margin-top: 10px;
+    }
+  }
+
+script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js')
+script.
+  document.getElementById('applyFilters').addEventListener('click', function() {
+    // Collect filter values
+    const categories = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+      .map(el => el.value);
+    const priceFrom = document.getElementById('priceFrom').value;
+    const priceTo = document.getElementById('priceTo').value;
+    const publishers = Array.from(document.querySelector('.form-select').selectedOptions)
+      .map(el => el.value);
+    const rating = document.querySelector('input[name="ratingRadio"]:checked')?.value;
+
+    // You can add your filter logic here
+    console.log('Applied Filters:', {
+      categories,
+      priceFrom,
+      priceTo,
+      publishers,
+      rating
+    });
+
+    // Close the modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('filterModal'));
+    modal.hide();
+  });

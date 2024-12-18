@@ -1,0 +1,166 @@
+extend ../../layout/default.pug
+
+block main
+  .container.px-3.py-3
+    .card.border-0.shadow-lg.rounded-xl.overflow-hidden
+      .card-body.p-4
+        // Sách Nổi Bật (Featured Books)
+        section#featured-books.mb-6
+          .d-flex.justify-content-between.align-items-center.mb-4
+            h4.text-gradient.mb-0.font-weight-bold Sách Nổi Bật
+            a.btn.btn-outline-primary.btn-sm.rounded-pill(href="/list/trend") 
+              i.fas.fa-chevron-right.mr-2
+              | Xem Thêm
+
+          .row.position-relative
+            .col-12
+              .swiper.book-swiper
+                .swiper-wrapper
+                  each book in trendproduct
+                    .swiper-slide
+                      a.book-card-link.text-decoration-none(href=`/detail/${book.productID}`)
+                        .card.book-card.h-100.border-0.shadow-hover.transform-hover
+                          .book-image-container.bg-light.d-flex.align-items-center.justify-content-center.p-3(style="height: 280px;")
+                            img.img-fluid.book-cover(
+                              src=`${book.image}` 
+                              alt=`${book.name}` 
+                              style="max-height: 100%; max-width: 100%; object-fit: contain; transition: transform 0.3s ease;"
+                            )
+                          .card-body.p-3.text-center
+                            h6.text-truncate.mb-1.font-weight-bold #{book.name}
+                            p.text-muted.mb-1 #{book.author}
+                            p.text-primary.font-weight-bold #{book.price.toLocaleString()}đ
+
+                .swiper-button-prev.text-primary.rounded-circle.shadow-sm
+                .swiper-button-next.text-primary.rounded-circle.shadow-sm
+                .swiper-pagination
+
+        // Sách Mới Nhất (New Arrivals)
+        section#new-arrivals.mb-6
+          .d-flex.justify-content-between.align-items-center.mb-4
+            h4.text-gradient.mb-0.font-weight-bold Sách Mới Nhất
+            a.btn.btn-outline-primary.btn-sm.rounded-pill(href="/list/new") 
+              i.fas.fa-chevron-right.mr-2
+              | Xem Thêm
+          
+          .row.position-relative
+            .col-12
+              .swiper.new-swiper
+                .swiper-wrapper
+                  each book in newproduct
+                    .swiper-slide
+                      a.book-card-link.text-decoration-none(href=`/detail/${book.productID}`)
+                        .card.book-card.h-100.border-0.shadow-hover.transform-hover
+                          .book-image-container.bg-light.d-flex.align-items-center.justify-content-center.p-3(style="height: 280px;")
+                            img.img-fluid.book-cover(
+                              src=`${book.image}` 
+                              alt=`${book.name}` 
+                              style="max-height: 100%; max-width: 100%; object-fit: contain; transition: transform 0.3s ease;"
+                            )
+                          .card-body.p-3.text-center
+                            h6.text-truncate.mb-1.font-weight-bold #{book.name}
+                            p.text-muted.mb-1 #{book.author}
+                            p.text-primary.font-weight-bold #{book.price.toLocaleString()}đ
+
+                .swiper-button-prev.text-primary.rounded-circle.shadow-sm
+                .swiper-button-next.text-primary.rounded-circle.shadow-sm
+                .swiper-pagination
+
+        // Danh Mục Sách (Book Categories)
+        section#book-categories
+          h4.text-primary.mb-4.text-center.font-weight-bold Danh Mục Sách
+          .row.row-cols-3.g-4
+            each cat,index in category
+              .col
+                a.text-decoration-none(href=`/list/${cat.name}`)
+                  .card.category-card.h-100.border-0.shadow-hover.transform-hover.text-center
+                    .card-body.p-4
+                      .category-icon.mb-3
+                        i.fas.fa-book.fa-3x.text-primary
+                      h6.card-title.text-primary.mb-2.font-weight-bold #{cat.name}
+                      small.text-muted #{numberBook[index]} Sách
+
+  style.
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --primary-color: #3b82f6;
+      --secondary-color: #6366f1;
+      --background-color: #f0f9ff;
+      --text-color: #1f2937;
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background-color);
+    }
+
+    .text-gradient {
+      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .book-card-link,
+    .book-card-link:hover {
+      text-decoration: none !important;
+    }
+
+    .shadow-hover {
+      transition: var(--transition);
+    }
+
+    .transform-hover:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(59,130,246,0.15) !important;
+    }
+
+    .book-cover {
+      transition: transform 0.3s ease;
+    }
+
+    .book-cover:hover {
+      transform: scale(1.05);
+    }
+
+    .swiper-button-prev, 
+    .swiper-button-next {
+      background-color: rgba(59, 130, 246, 0.1) !important;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .swiper-button-prev::after, 
+    .swiper-button-next::after {
+      font-size: 20px;
+    }
+
+  script(src='https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js')
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+      new Swiper('.book-swiper, .new-swiper', {
+        slidesPerView: 5,
+        spaceBetween: 15,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          type: 'bullets',
+          clickable: true
+        },
+        breakpoints: {
+          320: { slidesPerView: 2, spaceBetween: 10 },
+          480: { slidesPerView: 3, spaceBetween: 15 },
+          640: { slidesPerView: 4, spaceBetween: 20 },
+          1024: { slidesPerView: 5, spaceBetween: 25 }
+        },
+        effect: 'slide',
+        speed: 600,
+      });
+    });
