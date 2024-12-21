@@ -49,9 +49,12 @@ app.use('/uploads', express.static('uploads'));
 
 
 app.get('/test', async (req, res) => {
-  res.render("test/testview.pug")
+  res.render("test/test2.pug")
 });
-
+app.get('/get-category', async (req, res) => {
+  const [category] = await dbmysql.execute('select * from category')
+  res.json(category)
+});
 // App listen
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

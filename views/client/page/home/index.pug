@@ -72,7 +72,7 @@ block main
           .row.row-cols-3.g-4
             each cat,index in category
               .col
-                a.text-decoration-none(href=`/list/${cat.name}`)
+                a.text-decoration-none(href=`/list/category/${cat.categoryID}`)
                   .card.category-card.h-100.border-0.shadow-hover.transform-hover.text-center
                     .card-body.p-4
                       .category-icon.mb-3

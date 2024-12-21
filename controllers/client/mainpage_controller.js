@@ -72,6 +72,7 @@ module.exports.detail = async (req, res) => {
     if (product.length == 0) {
         return res.redirect('/404');
     }
+    const [authors] = await db.execute('select author.name from author, productauthor where author.authorID = productauthor.authorID and productauthor.productID = ?', [id]);
     // const query = `select c.*,u.fullname,r.replyID,r.content as reply_content from comment c,user u,reply r where c.productID = ? and c.userID = u.userID and r.commentID = c.commentID`;
     // const [comments] = await db.execute(query, [id]);
 
@@ -102,11 +103,14 @@ module.exports.detail = async (req, res) => {
     });
 
     const comments = Array.from(commentsMap.values());
- 
+    const author = authors.map(author => author.name).join(', ');
+    console.log(author)
     res.render('client/page/product/index', {
+        authors: author,
         product: product[0],
         comments: comments
     });
+    
 }
 module.exports.commendSend = async (req,res)=>{
     const id = req.body.id;

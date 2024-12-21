@@ -1,9 +1,10 @@
 //- search.pug
 div.search-bar-container
   .search-container
-    button.menu-button
-      i.fas.fa-list-ul.me-2
-      | Danh Mục Sách
+    .menu-button-wrapper
+      button(onclick='category()' class="drop-button menu-button")
+        i.fas.fa-list-ul.me-2
+        | Danh Mục Sách
     .search-bar
       .search-input-wrapper
         i.fas.fa-search.search-icon
@@ -30,37 +31,72 @@ div.search-bar-container
             .col-md-6.mb-3
               h6 Thể Loại
               .form-check
-                input#fictionCategory.form-check-input(type="checkbox" value="fiction")
-                label.form-check-label(for="fictionCategory") Tiểu Thuyết
+                input#fictionCategory.form-check-input(type="checkbox" value="1")
+                label.form-check-label(for="CNTT và Truyền thông") CNTT và Truyền thông
               .form-check
-                input#scienceCategory.form-check-input(type="checkbox" value="science")
-                label.form-check-label(for="scienceCategory") Khoa Học
+                input#scienceCategory.form-check-input(type="checkbox" value="2")
+                label.form-check-label(for="CN Hóa - Thực phẩm - SH ứng dụng") CN Hóa - Thực phẩm - SH ứng dụng
               .form-check
-                input#historyCategory.form-check-input(type="checkbox" value="history")
-                label.form-check-label(for="historyCategory") Lịch Sử
-            
+                input#historyCategory.form-check-input(type="checkbox" value="3")
+                label.form-check-label(for="Điện, Điện tử và Viễn thông") Điện, Điện tử và Viễn thông
+              .form-check
+                input#historyCategory.form-check-input(type="checkbox" value="4")
+                label.form-check-label(for="Công nghệ và Kỹ thuật Cơ khí") Công nghệ và Kỹ thuật Cơ khí
+              .form-check
+                input#historyCategory.form-check-input(type="checkbox" value="5")
+                label.form-check-label(for="Chế biến Sợi, Vải, Giày, Da") Chế biến Sợi, Vải, Giày, Da
+              .form-check
+                input#historyCategory.form-check-input(type="checkbox" value="6")
+                label.form-check-label(for="Khoa học vật chất") Khoa học vật chất
+              .form-check
+                input#historyCategory.form-check-input(type="checkbox" value="7")
+                label.form-check-label(for="Toán ứng dụng") Toán ứng dụng
             .col-md-6.mb-3
               h6 Khoảng Giá
               .input-group
                 input.form-control(type="number" placeholder="Từ" id="priceFrom")
                 span.input-group-text -
                 input.form-control(type="number" placeholder="Đến" id="priceTo")
+
+            .col-md-6.mb-3
+              h6 Lượt thích
+              .form-check
+                input#rating4.form-check-input(type="radio" name="ratingRadio" value="10")
+                label.form-check-label(for="rating10") 0 - 10 lượt thích
+              .form-check
+                input#rating3.form-check-input(type="radio" name="ratingRadio" value="20")
+                label.form-check-label(for="rating20") 10 - 20 lượt thích
+              .form-check
+                input#rating3.form-check-input(type="radio" name="ratingRadio" value="50")
+                label.form-check-label(for="rating50") 20 - 50 lượt thích
+              .form-check
+                input#rating3.form-check-input(type="radio" name="ratingRadio" value="51")
+                label.form-check-label(for="rating51") Trên 50 lượt thích
             
             .col-md-6.mb-3
-              h6 Nhà Xuất Bản
-              select.form-select(multiple aria-label="Nhà xuất bản")
-                option(value="1") Kim Đồng
-                option(value="2") Trẻ
-                option(value="3") Văn Học
-            
-            .col-md-6.mb-3
-              h6 Đánh Giá
+              h6 Năm xuất bản
               .form-check
-                input#rating4.form-check-input(type="radio" name="ratingRadio" value="4")
-                label.form-check-label(for="rating4") 4 Sao trở lên
+                input#rating4.form-check-input(type="radio" name="yearRadio" value="2024")
+                label.form-check-label(for="2024") 2024
               .form-check
-                input#rating3.form-check-input(type="radio" name="ratingRadio" value="3")
-                label.form-check-label(for="rating3") 3 Sao trở lên
+                input#rating3.form-check-input(type="radio" name="yearRadio" value="2023")
+                label.form-check-label(for="2023") 2023
+              .form-check
+                input#rating3.form-check-input(type="radio" name="yearRadio" value="2022")
+                label.form-check-label(for="2022") 2022
+              .form-check
+                input#rating3.form-check-input(type="radio" name="yearRadio" value="2021")
+                label.form-check-label(for="2021") Trước 2022
+            .col-md-6.mb-3 
+              h6 Ngôn ngữ
+              .form-check
+                input#language1.form-check-input(type="checkbox" value="Tiếng Việt")
+                label.form-check-label(for="language1") Tiếng Việt
+              .form-check
+                input#language2.form-check-input(type="checkbox" value="Tiếng nước ngoài")
+                label.form-check-label(for="language2") Tiếng nước ngoài
+              
+
 
         .modal-footer
           button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Đóng
@@ -233,7 +269,53 @@ style.
     background-color: var(--primary-color);
     border-color: var(--primary-color);
   }
+  .menu-button-wrapper {
+    position: relative;
+  }
 
+  .dropdown-menu-category {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 280px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    display: none;
+    padding: 10px 0;
+    margin-top: 5px;
+  }
+
+  .dropdown-item-category {
+    padding: 12px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    display: block;
+    transition: var(--transition);
+    font-size: 14px;
+  }
+
+  .dropdown-item-category:hover {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+  }
+
+  .dropdown-menu-category.show {
+    display: block;
+    animation: fadeIn 0.2s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   @media (max-width: 768px) {
     .search-container {
       flex-direction: column;
@@ -271,28 +353,98 @@ style.
     }
   }
 
-script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js')
+
 script.
   document.getElementById('applyFilters').addEventListener('click', function() {
-    // Collect filter values
     const categories = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
       .map(el => el.value);
-    const priceFrom = document.getElementById('priceFrom').value;
-    const priceTo = document.getElementById('priceTo').value;
-    const publishers = Array.from(document.querySelector('.form-select').selectedOptions)
+    const priceFrom = parseInt(document.getElementById('priceFrom').value) || 0;
+    const priceTo = parseInt(document.getElementById('priceTo').value) || 0;
+    const year = parseInt(document.querySelector('input[name="yearRadio"]:checked')?.value) || 0;
+    const likes = parseInt(document.querySelector('input[name="ratingRadio"]:checked')?.value) || 0;
+    const languages = Array.from(document.querySelectorAll('input[id^="language"]:checked'))
       .map(el => el.value);
-    const rating = document.querySelector('input[name="ratingRadio"]:checked')?.value;
 
-    // You can add your filter logic here
     console.log('Applied Filters:', {
       categories,
       priceFrom,
       priceTo,
-      publishers,
-      rating
+      year,
+      likes,
+      languages
+    });
+    const queryParams = new URLSearchParams({
+      categories: categories.join(','),
+      priceFrom,
+      priceTo,
+      year,
+      likes,
+      languages: languages.join(',')
+    }).toString();
+    fetch(`/search?${queryParams}`, {
+      method: 'GET',
+      headers: {
+      'Content-Type': 'application/json'
+      }
+    })
+    .then(res => {
+      if (res.ok) {
+      window.location.href = `/search?${queryParams}`;
+      } else {
+      console.error('Failed to fetch search results');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+    const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('filterModal'));
+    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+    modal.hide();
+    
+  });
+
+
+  function category() {
+  const buttonWrapper = document.querySelector('.menu-button-wrapper');
+  let menu = buttonWrapper.querySelector('.dropdown-menu-category');
+
+  if (!menu) {
+    menu = document.createElement('div');
+    menu.classList.add('dropdown-menu-category');
+    buttonWrapper.appendChild(menu);
+    
+    // Tải danh mục
+    fetch('/get-category', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      menu.innerHTML = ''; 
+      data.forEach(item => {
+        const a = document.createElement('a');
+        a.classList.add('dropdown-item-category');
+        a.href = `/list/category/${item.categoryID}`;
+        a.innerText = item.name;
+        menu.appendChild(a);
+      });
     });
 
-    // Close the modal
-    const modal = bootstrap.Modal.getInstance(document.getElementById('filterModal'));
-    modal.hide();
-  });
+    // Đóng menu khi click ngoài
+    document.addEventListener('click', (e) => {
+      if (!buttonWrapper.contains(e.target)) {
+        menu.classList.remove('show');
+      }
+    });
+  }
+  menu.classList.toggle('show');
+  }
+
+//- document.addEventListener('DOMContentLoaded', () => {
+//-   const buttonWrapper = document.querySelector('.menu-button-wrapper');
+//-   buttonWrapper.addEventListener('click', (e) => {
+//-     e.stopPropagation();
+//-   });
+//- });

@@ -26,7 +26,10 @@ module.exports.list = async (req,res) =>{
     const [countResult] = await db.execute('select count(*) as total from product where status = "active" ');
     const count = countResult[0].total;
     const {page,limit,offset,totalPage} = pageHelper(req.query,count)
-    const userID = req.user.userID
+    var userID = null
+    if(req.user){
+        userID = req.user.userID
+    }
     if (type == "trend"){
         let status = "active"
         const [product] = await db.execute(`select p.*,CASE WHEN l.productID IS NOT NULL THEN true ELSE false END AS isLiked
@@ -74,6 +77,70 @@ module.exports.listCategory = async (req,res) =>{
     const [product] = await db.execute('select * from product where status = "active" and categoryID = ? ',[id])
     const numberBooks = rows.map(row => row['Số lượng sách']);
     const {page,limit,offset,totalPage} = pageHelper(req.query,numberBooks[0])
+    res.render('client/page/home/list',{
+        products:product,
+        totalPage: totalPage,
+        currentPage: page
+    })
+}
+module.exports.searchPost = async (req,res) =>{
+    var { categories: category, priceFrom, priceTo, year, likes: like, languages:language } = req.query;
+    var cate = category ? category.split(',') : [];
+    var query = `select * from product where 1 = 1 `;
+    var params = [];
+    if (cate.length === 0) {
+        const [id] = await db.execute('select categoryID from category');
+        cate = id.map(item => item.categoryID);
+
+    }
+    cate.map((item, index) => {
+        cate[index] = parseInt(item);
+    });
+    const placeHodercat = cate.map(() => '?').join(',');
+    query += `and categoryID in (${placeHodercat})`;
+    params.push(...cate);
+    var lang = language ? language.split(',') : [];
+    if (lang.length === 0) {
+        lang = ['Tiếng Việt','Tiếng nước ngoài']
+    }
+    const placeHolderlang = lang.map(() => '?').join(',');
+    query += `and language in (${placeHolderlang})`;
+    params.push(...lang);
+    priceFrom = parseInt(priceFrom);
+    priceTo = parseInt(priceTo);
+    if (priceFrom > 0 && priceTo > 0 && priceFrom < priceTo) {
+        query += `and price >= ? and price <= ?`;
+        params.push(priceFrom, priceTo);
+    }
+    year = parseInt(year);
+    if (year > 2021) {
+        query += `and publish_year = ?`;
+        params.push(year);
+    }
+    else if (year == 2021) {
+        query += `and publish_year <= ?`;
+        params.push(year);
+    }
+    like = parseInt(like);
+    if (like  == 10){
+        query += `and watched <= ?`;
+        params.push(like);
+    }
+    else if (like == 20){
+        query += `and watched >= ? and watched <= ?`;
+        params.push(like - 10, like);
+    }
+    else if (like == 50){
+        query += `and watched >= ? and watched <= ?`;
+        params.push(like - 30, like);
+    }
+    else if (like == 51){
+        query += `and watched > ?`;
+        params.push(50);
+    }
+    const [product] = await db.execute(query, params);
+    const count = product.length;
+    const {page,limit,offset,totalPage} = pageHelper(req.query,count)
     res.render('client/page/home/list',{
         products:product,
         totalPage: totalPage,
