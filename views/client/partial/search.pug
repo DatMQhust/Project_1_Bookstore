@@ -5,11 +5,11 @@ div.search-bar-container
       button(onclick='category()' class="drop-button menu-button")
         i.fas.fa-list-ul.me-2
         | Danh Mục Sách
-    .search-bar
+    form.search-bar(action="" method="get" id="form-search")
       .search-input-wrapper
         i.fas.fa-search.search-icon
-        input.search-input(type="text" placeholder="Tìm sách, tác giả, sản phẩm mong muốn...")
-      button.search-button 
+        input.search-input(type="text" name="query" id="query" placeholder="Tìm sách, tác giả, sản phẩm mong muốn...")
+      button.search-button(type="submit") 
         i.fas.fa-arrow-right.me-2
         | Tìm kiếm
     button.filter-button(data-bs-toggle="modal" data-bs-target="#filterModal")
@@ -381,7 +381,7 @@ script.
       likes,
       languages: languages.join(',')
     }).toString();
-    fetch(`/search?${queryParams}`, {
+    fetch(`/filter?${queryParams}`, {
       method: 'GET',
       headers: {
       'Content-Type': 'application/json'
@@ -389,7 +389,7 @@ script.
     })
     .then(res => {
       if (res.ok) {
-      window.location.href = `/search?${queryParams}`;
+      window.location.href = `/filter?${queryParams}`;
       } else {
       console.error('Failed to fetch search results');
       }
@@ -405,46 +405,69 @@ script.
 
 
   function category() {
-  const buttonWrapper = document.querySelector('.menu-button-wrapper');
-  let menu = buttonWrapper.querySelector('.dropdown-menu-category');
+    const buttonWrapper = document.querySelector('.menu-button-wrapper');
+    let menu = buttonWrapper.querySelector('.dropdown-menu-category');
 
-  if (!menu) {
-    menu = document.createElement('div');
-    menu.classList.add('dropdown-menu-category');
-    buttonWrapper.appendChild(menu);
-    
-    // Tải danh mục
-    fetch('/get-category', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(res => res.json())
-    .then(data => {
-      menu.innerHTML = ''; 
-      data.forEach(item => {
-        const a = document.createElement('a');
-        a.classList.add('dropdown-item-category');
-        a.href = `/list/category/${item.categoryID}`;
-        a.innerText = item.name;
-        menu.appendChild(a);
+    if (!menu) {
+      menu = document.createElement('div');
+      menu.classList.add('dropdown-menu-category');
+      buttonWrapper.appendChild(menu);
+      
+      // Tải danh mục
+      fetch('/get-category', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        menu.innerHTML = ''; 
+        data.forEach(item => {
+          const a = document.createElement('a');
+          a.classList.add('dropdown-item-category');
+          a.href = `/list/category/${item.categoryID}`;
+          a.innerText = item.name;
+          menu.appendChild(a);
+        });
       });
-    });
 
-    // Đóng menu khi click ngoài
-    document.addEventListener('click', (e) => {
-      if (!buttonWrapper.contains(e.target)) {
-        menu.classList.remove('show');
-      }
-    });
-  }
-  menu.classList.toggle('show');
+      // Đóng menu khi click ngoài
+      document.addEventListener('click', (e) => {
+        if (!buttonWrapper.contains(e.target)) {
+          menu.classList.remove('show');
+        }
+      });
+    }
+    menu.classList.toggle('show');
   }
 
-//- document.addEventListener('DOMContentLoaded', () => {
-//-   const buttonWrapper = document.querySelector('.menu-button-wrapper');
-//-   buttonWrapper.addEventListener('click', (e) => {
-//-     e.stopPropagation();
-//-   });
-//- });
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttonWrapper = document.querySelector('.menu-button-wrapper');
+    buttonWrapper.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  });
+  const formSearch = document.getElementById("form-search");
+  if(formSearch){
+    formSearch.addEventListener("submit",(e)=>{
+      e.preventDefault();
+      const content = document.getElementById("query").value;
+      fetch(`/search?query=${content}`, {
+        method: 'GET',
+        headers: {
+        'Content-Type': 'application/json'
+        }
+      })
+      .then(res => {
+        if (res.ok) {
+        window.location.href = `/search?query=${content}`;
+        } else {
+        console.error('Failed to fetch search results');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+      })
+  }

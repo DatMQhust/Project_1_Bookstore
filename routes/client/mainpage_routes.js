@@ -17,5 +17,6 @@ router.post('/like/:id',passportJWT,controller.like)
 router.get('/saved',passportJWT,controller.saved)
 router.get('/detail/:id',controller.detail)
 router.post('/comment/:id',passportJWT,controller.commendSend)
+router.get('/filter',dashboard_controller.filterPost)
 router.get('/search',dashboard_controller.searchPost)
 module.exports = router

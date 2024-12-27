@@ -104,7 +104,7 @@ module.exports.detail = async (req, res) => {
 
     const comments = Array.from(commentsMap.values());
     const author = authors.map(author => author.name).join(', ');
-    console.log(author)
+    
     res.render('client/page/product/index', {
         authors: author,
         product: product[0],

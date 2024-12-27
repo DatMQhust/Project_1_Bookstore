@@ -83,7 +83,7 @@ module.exports.listCategory = async (req,res) =>{
         currentPage: page
     })
 }
-module.exports.searchPost = async (req,res) =>{
+module.exports.filterPost = async (req,res) =>{
     var { categories: category, priceFrom, priceTo, year, likes: like, languages:language } = req.query;
     var cate = category ? category.split(',') : [];
     var query = `select * from product where 1 = 1 `;
@@ -146,4 +146,28 @@ module.exports.searchPost = async (req,res) =>{
         totalPage: totalPage,
         currentPage: page
     })
+}
+module.exports.searchPost = async (req,res)=>{
+    const content = req.query.query;
+    const searchContent = `%${content}%`;
+    const [product] = await db.execute(`
+        SELECT product.*, 
+               GROUP_CONCAT(author.name SEPARATOR ', ') AS authors 
+        FROM product 
+        JOIN productauthor ON product.productID = productauthor.productID 
+        JOIN author ON productauthor.authorID = author.authorID 
+        WHERE (product.name LIKE ? OR author.name LIKE ?)
+        GROUP BY product.productID`,
+        [searchContent, searchContent]
+    );
+    const count = product.length;
+    const {page,limit,offset,totalPage} = pageHelper(req.query,count)
+    res.render('client/page/home/list',{
+        products:product,
+        totalPage: totalPage,
+        currentPage: page
+    })
+
+    
+
 }
