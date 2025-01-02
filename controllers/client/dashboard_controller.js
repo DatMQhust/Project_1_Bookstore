@@ -21,68 +21,81 @@ module.exports.index = async (req,res) => {
     })
 }
 // [GET] /list/:type
-module.exports.list = async (req,res) =>{
-    const type = req.params.type
-    const [countResult] = await db.execute('select count(*) as total from product where status = "active" ');
+module.exports.list = async (req, res) => {
+    const type = req.params.type;
+    const sort = req.query.sort; // Lấy query 'sort' từ URL
+    const [countResult] = await db.execute('SELECT COUNT(*) as total FROM product WHERE status = "active"');
     const count = countResult[0].total;
-    const {page,limit,offset,totalPage} = pageHelper(req.query,count)
-    var userID = null
-    if(req.user){
-        userID = req.user.userID
+    const { page, limit, offset, totalPage } = pageHelper(req.query, count);
+    let userID = null;
+    if (req.user) {
+        userID = req.user.userID;
     }
-    if (type == "trend"){
-        let status = "active"
-        const [product] = await db.execute(`select p.*,CASE WHEN l.productID IS NOT NULL THEN true ELSE false END AS isLiked
-                                            from product p
-                                            left join liked l on p.productID = l.productID and l.userID = ?
-                                            where status = ?
-                                            order by watched desc
-                                            LIMIT ? OFFSET ? 
-                                            `,[`${userID}`,`${status}`,`${limit}`,`${offset}`])
-        res.render('client/page/home/list',{
-            products:product,
-            totalPage: totalPage,
-            currentPage: page,
-        })
+
+    let sortQuery = "";
+    if (sort === "year") {
+        sortQuery = "ORDER BY publish_year DESC";
+    } else if (sort === "price-asc") {
+        sortQuery = "ORDER BY price ASC";
+    } else if (sort === "price-desc") {
+        sortQuery = "ORDER BY price DESC";
+    } else {
+        sortQuery = type === "trend" ? "ORDER BY watched DESC" : "ORDER BY created_at DESC";
     }
-    else if (type == "new"){
-        
-        let status = "active"
-        const [product] = await db.execute(`select p.*,CASE WHEN l.productID IS NOT NULL THEN true ELSE false END AS isLiked
-                                            from product p
-                                            left join liked l on p.productID = l.productID and l.userID = ?
-                                            where status = ? 
-                                            order by created_at desc
-                                            LIMIT ? OFFSET ?`,[`${userID}`,`${status}`,`${limit}`,`${offset}`])
-        res.render('client/page/home/list',{
-            products:product,
-            totalPage: totalPage,
-            currentPage: page,
-        })
-    }
-    else {
-        res.redirect('/')
-    }
-}
-module.exports.listCategory = async (req,res) =>{
-    const id = req.params.id
-    
-    const [rows] = await db.execute(`
-        SELECT category.name, COUNT(product.categoryID) AS 'Số lượng sách'
-        FROM category
-        LEFT JOIN product ON category.categoryID = product.categoryID
-        WHERE category.categoryID = ?
-        GROUP BY category.categoryID;
-    `, [id]);
-    const [product] = await db.execute('select * from product where status = "active" and categoryID = ? ',[id])
-    const numberBooks = rows.map(row => row['Số lượng sách']);
-    const {page,limit,offset,totalPage} = pageHelper(req.query,numberBooks[0])
-    res.render('client/page/home/list',{
-        products:product,
+
+    const [product] = await db.execute(
+        `SELECT p.*, 
+                CASE WHEN l.productID IS NOT NULL THEN true ELSE false END AS isLiked
+         FROM product p
+         LEFT JOIN liked l ON p.productID = l.productID AND l.userID = ?
+         WHERE p.status = "active"
+         ${sortQuery}
+         LIMIT ? OFFSET ?`,
+        [`${userID}`, `${limit}`, `${offset}`]
+    );
+
+    res.render('client/page/home/list', {
+        products: product,
         totalPage: totalPage,
-        currentPage: page
-    })
-}
+        currentPage: page,
+    });
+};
+
+module.exports.listCategory = async (req, res) => {
+    const id = req.params.id;
+    const sort = req.query.sort; // Lấy query 'sort' từ URL
+
+    let sortQuery = "";
+    if (sort === "year") {
+        sortQuery = "ORDER BY publish_year DESC";
+    } else if (sort === "price-asc") {
+        sortQuery = "ORDER BY price ASC";
+    } else if (sort === "price-desc") {
+        sortQuery = "ORDER BY price DESC";
+    }
+
+    const [countResult] = await db.execute(
+        'SELECT COUNT(*) as total FROM product WHERE status = "active" AND categoryID = ?',
+        [id]
+    );
+    const count = countResult[0].total;
+    const { page, limit, offset, totalPage } = pageHelper(req.query, count);
+
+    const [product] = await db.execute(
+        `SELECT * FROM product 
+         WHERE status = "active" AND categoryID = ? 
+         ${sortQuery}
+         LIMIT ? OFFSET ?`,
+        [id, `${limit}`, `${offset}`]
+    );
+    
+    res.render('client/page/home/list', {
+        products: product,
+        totalPage: totalPage,
+        currentPage: page,
+    });
+};
+
 module.exports.filterPost = async (req,res) =>{
     var { categories: category, priceFrom, priceTo, year, likes: like, languages:language } = req.query;
     var cate = category ? category.split(',') : [];
@@ -138,6 +151,16 @@ module.exports.filterPost = async (req,res) =>{
         query += `and watched > ?`;
         params.push(50);
     }
+    if(req.query.sort){
+        const sort = req.query.sort;
+        if (sort === "year") {
+            query += ` ORDER BY publish_year DESC`;
+        } else if (sort === "price-asc") {
+            query += ` ORDER BY price ASC`;
+        } else if (sort === "price-desc") {
+            query += ` ORDER BY price DESC`;
+        }
+    }
     const [product] = await db.execute(query, params);
     const count = product.length;
     const {page,limit,offset,totalPage} = pageHelper(req.query,count)
@@ -147,27 +170,41 @@ module.exports.filterPost = async (req,res) =>{
         currentPage: page
     })
 }
-module.exports.searchPost = async (req,res)=>{
+module.exports.searchPost = async (req, res) => {
     const content = req.query.query;
+    const sort = req.query.sort; // Lấy query 'sort' từ URL
     const searchContent = `%${content}%`;
-    const [product] = await db.execute(`
+
+    let query = `
         SELECT product.*, 
                GROUP_CONCAT(author.name SEPARATOR ', ') AS authors 
         FROM product 
         JOIN productauthor ON product.productID = productauthor.productID 
         JOIN author ON productauthor.authorID = author.authorID 
         WHERE (product.name LIKE ? OR author.name LIKE ?)
-        GROUP BY product.productID`,
-        [searchContent, searchContent]
-    );
+        GROUP BY product.productID
+    `;
+    let params = [searchContent, searchContent];
+
+    // Thêm logic sắp xếp
+    if (sort === "year") {
+        query += ` ORDER BY publish_year DESC`;
+    } else if (sort === "price-asc") {
+        query += ` ORDER BY price ASC`;
+    } else if (sort === "price-desc") {
+        query += ` ORDER BY price DESC`;
+    }
+
+    const [product] = await db.execute(query, params);
     const count = product.length;
-    const {page,limit,offset,totalPage} = pageHelper(req.query,count)
-    res.render('client/page/home/list',{
-        products:product,
+    const { page, limit, offset, totalPage } = pageHelper(req.query, count);
+
+    res.render('client/page/home/list', {
+        products: product,
         totalPage: totalPage,
-        currentPage: page
-    })
-
-    
-
+        currentPage: page,
+    });
+};
+module.exports.notFound = (req,res) =>{
+    res.render('client/page/404');
 }

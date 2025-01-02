@@ -8,7 +8,7 @@ const passportJWT = passport.authenticate("jwt", {
     session: false,
 });
 router.get('/',dashboard_controller.index)
-router.get('/list/all',controller.list)
+router.get('/list/all',passportJWT,controller.list)
 router.get('/list/:type',dashboard_controller.list)
 router.get('/list/category/:id',dashboard_controller.listCategory)
 router.get('/profile',passportJWT,controller.profile)
@@ -19,4 +19,6 @@ router.get('/detail/:id',controller.detail)
 router.post('/comment/:id',passportJWT,controller.commendSend)
 router.get('/filter',dashboard_controller.filterPost)
 router.get('/search',dashboard_controller.searchPost)
+router.post('/remove-from-favorites',passportJWT,controller.removeFormFavorite)
+router.get('/404',dashboard_controller.notFound)
 module.exports = router
